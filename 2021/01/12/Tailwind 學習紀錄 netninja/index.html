@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Tailwind 豐富的 utility class 讓使用者能夠進行靈活的開發，然而內建的設定未必符合設計需求，因此 Tailwind 提供了 config 檔，讓使用者可以自由新增編輯，進行更自由客製化的設定。 而除了基本的自訂義樣式操作，以下也會介紹一實用的自定義樣式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tailwind 學習紀錄 - 自訂樣式設定、@apply元件化設定">
+<meta property="og:url" content="http://example.com/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20netninja/index.html">
+<meta property="og:site_name" content="黑底白字">
+<meta property="og:description" content="Tailwind 豐富的 utility class 讓使用者能夠進行靈活的開發，然而內建的設定未必符合設計需求，因此 Tailwind 提供了 config 檔，讓使用者可以自由新增編輯，進行更自由客製化的設定。 而除了基本的自訂義樣式操作，以下也會介紹一實用的自定義樣式。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/AcUK6o5.png">
+<meta property="og:image" content="https://i.imgur.com/ERDkJss.png">
+<meta property="article:published_time" content="2021-01-12T10:33:30.000Z">
+<meta property="article:modified_time" content="2021-01-18T10:11:43.055Z">
+<meta property="article:author" content="Iris Huang">
+<meta property="article:tag" content="tailwindcss">
+<meta property="article:tag" content="tailwind">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/AcUK6o5.png">
+
+<link rel="canonical" href="http://example.com/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20netninja/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-tw'
+  };
+</script>
+
+  <title>Tailwind 學習紀錄 - 自訂樣式設定、@apply元件化設定 | 黑底白字</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">黑底白字</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主頁">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主頁</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20netninja/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tailwind 學習紀錄 - 自訂樣式設定、@apply元件化設定
+        </h1>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20netninja/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/12/Tailwind 學習紀錄 netninja/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Tailwind 豐富的 utility class 讓使用者能夠進行靈活的開發，然而內建的設定未必符合設計需求，因此 Tailwind 提供了 config 檔，讓使用者可以自由新增編輯，進行更自由客製化的設定。</p>
+<p>而除了基本的自訂義樣式操作，以下也會介紹一實用的自定義樣式。</p>
+<a id="more"></a>
+
+<h2 id="Tailwind-Config-新增自定義-class-樣式"><a href="#Tailwind-Config-新增自定義-class-樣式" class="headerlink" title="Tailwind Config 新增自定義 class 樣式"></a>Tailwind Config 新增自定義 class 樣式</h2><p><a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/configuration">官方文件</a></p>
+<p>使用 <code>$ npx tailwindcss init --full</code> 產生 config 設定檔，<code>--full</code>即預設的設定，會建立包含所有 class 變數的詳細設定表，可以透過新增或修改裡面的數值進行自訂義設定。</p>
+<img src="https://i.imgur.com/AcUK6o5.png" width="50%">
+
+<p>然而實作上不建議直接變更預設值檔案，會建議另外獨立新增檔案來放自己新增的值，這樣才能區分哪些是自己自訂修改的 class，哪些是系統預設的 class。</p>
+<p>因此，將本來的 config 檔更名為<code>tailwind-default.config.js</code>來保留預設值（也可以不留，但就作為一個參考），然後再重新執行 <code>$ npx tailwindcss init</code>（不用加- -full），產生一支新的空白 <code>tailwind.config.js</code> 檔案，利用這個檔案來管理新增編輯的 class 樣式。</p>
+<ul>
+<li>tailwind-default.config.js：參考用的全部 class 設定</li>
+<li>tailwind.config.js：自定義的 class 設定</li>
+</ul>
+<p>打開 <code>tailwind.config.js</code> 新增自定的 class，注意！若直接將設定放在 theme 中會報錯，因為這樣會整個覆蓋掉預設的 tailwind 檔案，因此要放在 <code>extend</code> 中進行擴充，而 <code>extend</code> 會和 tailwind 的預設值檔案進行合併。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">theme: &#123;</span><br><span class="line">  <span class="comment">// 自訂樣式要放在extend</span></span><br><span class="line">  extend: &#123;</span><br><span class="line">    fontSize: &#123;</span><br><span class="line">      mammoth: &#x27;8rem&#x27;,</span><br><span class="line">    &#125;,</span><br><span class="line">    color:&#123;</span><br><span class="line">      primary: &#x27;#304030&#x27;,</span><br><span class="line">      secondary: &#123;</span><br><span class="line">        100: &#x27;#E2E2D5&#x27;,</span><br><span class="line">        200: &#x27;#888883&#x27;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>設定完後執行之前設定的編譯指令，編譯完成後就可使用新增的 text-mammoth 和 primary, secondary-100, secondary-200 了。</p>
+<hr>
+<h2 id="自定義字型"><a href="#自定義字型" class="headerlink" title="自定義字型"></a>自定義字型</h2><p><a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/font-family">官方文件</a></p>
+<h3 id="使用預設的字型"><a href="#使用預設的字型" class="headerlink" title="使用預設的字型"></a>使用預設的字型</h3><p>Tailwind 內建 sans, serif, mono 三種系列字型，而預設的字型是 fontFamily 的 sans 系列，如果想使用其他內建字型，可以使用 class <code>font-serif</code> 或 <code>font-mono</code>。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fontFamily: &#123;</span><br><span class="line">  <span class="comment">// sans 系列是預設</span></span><br><span class="line">  sans: [~],</span><br><span class="line">  serif: [~],</span><br><span class="line">  mono: [~],</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="引入外部字型（以-Google-Fonts-為例）"><a href="#引入外部字型（以-Google-Fonts-為例）" class="headerlink" title="引入外部字型（以 Google Fonts 為例）"></a>引入外部字型（以 Google Fonts 為例）</h3><p>進入 <a target="_blank" rel="noopener" href="https://fonts.google.com/">Google Fonts</a> 選擇欲 Embed 的字型後，以範例來說，我希望引用 Fjalla One 和 Noto Sans TC，於是選擇好字型後，產生 @import 的程式碼，然後將它貼到彙整的 css 檔案中。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 引入的字型</span><br><span class="line"><span class="keyword">@import</span> url(<span class="string">&#x27;https://fonts.googleapis.com/css2?family=Fjalla+One&amp;family=Noto+Sans+TC:wght@100;300;400;500;700;900&amp;display=swap&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">@tailwind</span> base;</span><br><span class="line"><span class="keyword">@tailwind</span> components;</span><br><span class="line"><span class="keyword">@tailwind</span> utilities;</span><br></pre></td></tr></table></figure>
+<p>將字型引入到 css 後，至<code>tailwind.config.js</code> 中新增 fontFamily，設定命名英文字型 Fjalla One 和中文字型 Noto Sans TC，經過編譯後，就能夠使用 <code>font-en</code>(Fjalla One) 與 <code>font-ch</code>(Noto Sans TC) 的自訂字型了。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">theme: &#123;</span><br><span class="line">  extend: &#123;</span><br><span class="line">    fontFamily: &#123;</span><br><span class="line">      en: [&#x27;Fjalla One&#x27;], // 英文字型</span><br><span class="line">      ch: [&#x27;&#x27;], // 中文字型</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="自定義響應式-Responsive-尺寸"><a href="#自定義響應式-Responsive-尺寸" class="headerlink" title="自定義響應式 Responsive 尺寸"></a>自定義響應式 Responsive 尺寸</h2><p><a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/responsive-design">官方文件</a><br>tailwind 採用 mobile first 設計，內建以下響應尺寸：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">theme: &#123;</span><br><span class="line">  screens: &#123;</span><br><span class="line">    sm: &#39;640px&#39;,</span><br><span class="line">    md: &#39;768px&#39;,</span><br><span class="line">    lg: &#39;1024px&#39;,</span><br><span class="line">    xl: &#39;1280px&#39;,</span><br><span class="line">    &#39;2xl&#39;: &#39;1536px&#39;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自定義 min-width 裝置尺寸，編譯後就能使用<code>tablet:</code>, <code>laptop:</code>, <code>desktop:</code> 的響應尺寸。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">theme: &#123;</span><br><span class="line">  screens: &#123;</span><br><span class="line">    &#39;tablet&#39;: &#39;640px&#39;,</span><br><span class="line">    &#x2F;&#x2F; &#x3D;&gt; @media (min-width: 640px) &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">    &#39;laptop&#39;: &#39;1024px&#39;,</span><br><span class="line">    &#x2F;&#x2F; &#x3D;&gt; @media (min-width: 1024px) &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">    &#39;desktop&#39;: &#39;1280px&#39;,</span><br><span class="line">    &#x2F;&#x2F; &#x3D;&gt; @media (min-width: 1280px) &#123; ... &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="自定偽類-Hover-Focus-Active"><a href="#自定偽類-Hover-Focus-Active" class="headerlink" title="自定偽類 Hover, Focus, Active"></a>自定偽類 Hover, Focus, Active</h2><p><a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/configuring-variants">官方文件</a></p>
+<p>在 Tailwind 中，可以透過在 class 前增加前贅詞，例如 <code>hover:bg-yellow-100</code> 來更改 hover 時的背景色，然而並不是所有的行為都有設定反應互動（例如希望 hover 時字體變大或 active 時背景色變更就沒有），此時就要在 <code>tailwind.config.js</code> 的 <code>variants</code> 重進行設定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">variants: &#123;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 有順序性的</span><br><span class="line">  backgroundColor: [&#39;responsive&#39;, &#39;hover&#39;, &#39;focus&#39;, &#39;active&#39;],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>結合運用<br><code>md:hover:bg-green-400</code><br>active-bg<br><a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/configuring-variants">https://tailwindcss.com/docs/configuring-variants</a></p>
+<h2 id="Composing-Utilities-with-apply"><a href="#Composing-Utilities-with-apply" class="headerlink" title="Composing Utilities with @apply"></a>Composing Utilities with @apply</h2><p>建立可複用的 component class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 樣式模組化前</span><br><span class="line">&lt;a href&#x3D;&quot;#&quot; class&#x3D;&quot;inline-block px-5 py-3 shadow-lg rounded-lg bg-indigo-500 md:hover:bg-green-400 hover:bg-indigo-400 focus:outline-none focus:shadow-outline active:bg-indigo-600 text-white uppercase tracking-wider &gt;Book your escape&lt;&#x2F;a&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 樣式模組化後</span><br><span class="line">&lt;a href&#x3D;&quot;#&quot; class&#x3D;&quot;btn&quot;&gt;Book your escape&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<p>注意！@apply 不支援前贅詞狀態的 class，例如：響應系列(sm:, md:, lg:),hover ,focus, active，等偽類要分開放（類似寫 CSS），不然無法編譯。</p>
+<p>全部放一起 NG！！！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.btn &#123;</span><br><span class="line">    @apply inline-block px-5 py-3 shadow-lg rounded-lg bg-indigo-500 hover:bg-indigo-400 focus:outline-none focus:shadow-outline active:bg-indigo-600 text-white uppercase tracking-wider font-semibold text-sm sm:text-base</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分門別類放 OK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; btn 基礎樣式</span><br><span class="line">.btn &#123;</span><br><span class="line">    @apply inline-block px-5 py-3 shadow-lg rounded-lg bg-indigo-500 text-white uppercase tracking-wider font-semibold text-sm</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 偽類</span><br><span class="line">.btn:hover &#123;</span><br><span class="line">    @apply bg-indigo-400</span><br><span class="line">&#125;</span><br><span class="line">.btn:focus &#123;</span><br><span class="line">    @apply outline-none shadow-outline;</span><br><span class="line">&#125;</span><br><span class="line">.btn:active &#123;</span><br><span class="line">    @apply bg-indigo-600</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; responsive</span><br><span class="line">@screen sm &#123;</span><br><span class="line">    .btn &#123;</span><br><span class="line">        @apply text-base</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意事項！！！</strong><br>擺放順訊很重要，自定義的 component class 要放在 <code>@tailwind utilities</code> 上方，這樣新增的 utility class 才能覆蓋掉原本 btn 中的樣式，不然完全無法透過新增 utility class 的方式改變樣式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@tailwind base;</span><br><span class="line">@tailwind components;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 必須擺放在 utilities 上</span><br><span class="line">.btn &#123;</span><br><span class="line">    @apply inline-block px-5 py-3 shadow-lg rounded-lg bg-indigo-500 text-white uppercase tracking-wider font-semibold text-sm</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@tailwind utilities;</span><br></pre></td></tr></table></figure>
+<p>原本 btn 中設定 px-5，加上 utility class px-8 就可以蓋掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;#&quot; class&#x3D;&quot;btn px-8&quot;&gt;Book your escape&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="apply-Directive"><a href="#apply-Directive" class="headerlink" title="@apply Directive"></a>@apply Directive</h2><h4 id="Extracting-Components"><a href="#Extracting-Components" class="headerlink" title="Extracting Components"></a>Extracting Components</h4><p><a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/extracting-components">https://tailwindcss.com/docs/extracting-components</a><br>Tailwind 鼓勵我們使用 utility-first 的設計模式，然而一旦網站變得龐大，許多相同的卡片或樣式四處散落，重複的程式碼不僅冗長，修改時也很麻煩。</p>
+<p>因此可以使用 <code>@apply</code> 語法，在 styles.css 檔案中建立自訂的 class 將樣式放在裡面，然後再用自訂的 class 取代原本一長串的 class，如此一來，碼程式碼會比較簡潔也能提高複用性。</p>
+<p>這邊很推薦看文件，有更進階詳細的使用方法</p>
+<p><img src="https://i.imgur.com/ERDkJss.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; card</span><br><span class="line">&lt;div class&#x3D;&quot;card&quot;&gt;</span><br><span class="line">  &lt;img class&#x3D;&quot;w-full h-32 sm:h-48 object-cover&quot; src&#x3D;&quot;img&#x2F;stew.jpg&quot; alt&#x3D;&quot;stew&quot; &#x2F;&gt;</span><br><span class="line">  div class&#x3D;&quot;m-4&quot;&gt;</span><br><span class="line">    &lt;span class&#x3D;&quot;font-bold&quot;&gt;5 Bean Chilli Stew&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;span class&#x3D;&quot;block text-gray-500 text-sm&quot;&gt;Recipe by Mario&lt;&#x2F;span&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; badge</span><br><span class="line">  &lt;div class&#x3D;&quot;badge&quot;&gt;</span><br><span class="line">    &lt;span&gt;25min&lt;&#x2F;span&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tailwindcss/" rel="tag"># tailwindcss</a>
+              <a href="/tags/tailwind/" rel="tag"># tailwind</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20-%20%E5%AE%89%E8%A3%9D%E8%A8%AD%E5%AE%9A%20Tailwind,%20PostCSS,%20PurgeCSS/" rel="prev" title="Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS">
+      <i class="fa fa-chevron-left"></i> Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tailwind-Config-%E6%96%B0%E5%A2%9E%E8%87%AA%E5%AE%9A%E7%BE%A9-class-%E6%A8%A3%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">Tailwind Config 新增自定義 class 樣式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E7%BE%A9%E5%AD%97%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">自定義字型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%A0%90%E8%A8%AD%E7%9A%84%E5%AD%97%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">使用預設的字型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E5%AD%97%E5%9E%8B%EF%BC%88%E4%BB%A5-Google-Fonts-%E7%82%BA%E4%BE%8B%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">引入外部字型（以 Google Fonts 為例）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E7%BE%A9%E9%9F%BF%E6%87%89%E5%BC%8F-Responsive-%E5%B0%BA%E5%AF%B8"><span class="nav-number">3.</span> <span class="nav-text">自定義響應式 Responsive 尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E5%81%BD%E9%A1%9E-Hover-Focus-Active"><span class="nav-number">4.</span> <span class="nav-text">自定偽類 Hover, Focus, Active</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Composing-Utilities-with-apply"><span class="nav-number">5.</span> <span class="nav-text">Composing Utilities with @apply</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apply-Directive"><span class="nav-number">6.</span> <span class="nav-text">@apply Directive</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Extracting-Components"><span class="nav-number">6.0.1.</span> <span class="nav-text">Extracting Components</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Iris Huang</p>
+  <div class="site-description" itemprop="description">記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iris Huang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-lyaui-github-io.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://example.com/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20netninja/";
+    this.page.identifier = "2021/01/12/Tailwind 學習紀錄 netninja/";
+    this.page.title = "Tailwind 學習紀錄 - 自訂樣式設定、@apply元件化設定";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://https-lyaui-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
