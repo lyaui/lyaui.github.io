@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://i.imgur.com/GwSvAz4.png">
 <meta property="og:image" content="https://i.imgur.com/hRnKVWD.png">
 <meta property="article:published_time" content="2021-01-12T10:33:30.000Z">
-<meta property="article:modified_time" content="2021-01-19T04:25:58.341Z">
+<meta property="article:modified_time" content="2021-01-19T06:20:22.479Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="tailwindcss">
 <meta property="article:tag" content="tailwind">
@@ -201,19 +201,19 @@
 <p>學習方面，Tailwind 的官方文件寫得相當詳盡，非常建議參考，不過文件滿長的，自己比較喜歡看影片學習，所以就參考了以下 YT 免費資源並佐以文件：一開始我先看 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=bxmDnn7lrnk&list=PL4cUxeGkcC9gpXORlEHjc5bgnIi5HEGhw">The Net Ninja</a> 的影片入門，可以快速認識 Tailwind 的各式 utility class（有用過 BS 之類的框架的話很快就能上手）並建立簡易的版型。</p>
 <p>後來再看了 Tailwind 開發者 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=21HuwjmuS7A&list=PL7CcGwsqRpSM3w9BT_21tUU8JN2SnyckR">Adam Wathan</a> 的影片，比起前者多了不少眉角和設定細節，如果時間不夠的話，建議直接看 Adam Wathan 的影片。看完作者的影片應該就能大致掌握 Tailwind 的使用方式了，不過坐而言不如起而行，實際運用才是最好的練習！</p>
 <hr>
-<h3 id="Tailwind-PostCSS-簡介"><a href="#Tailwind-PostCSS-簡介" class="headerlink" title="Tailwind, PostCSS 簡介"></a>Tailwind, PostCSS 簡介</h3><p>Tailwind 是一款 PostCss 的 plugin，PostCSS 是一種後處理器（Postprocessors），利用 JS 插件將輸入的 CSS 轉成瀏覽器能懂的指令，並可依照需求進行客製化的引入，效能也較佳。</p>
+<h2 id="Tailwind-PostCSS-簡介"><a href="#Tailwind-PostCSS-簡介" class="headerlink" title="Tailwind, PostCSS 簡介"></a>Tailwind, PostCSS 簡介</h2><p>Tailwind 是一款 PostCss 的 plugin，PostCSS 是一種後處理器（Postprocessors），利用 JS 插件將輸入的 CSS 轉成瀏覽器能懂的指令，並可依照需求進行客製化的引入，效能也較佳。</p>
 <ul>
 <li>關於 PostCSS 的簡介可參考：<a target="_blank" rel="noopener" href="https://github.com/postcss/postcss/blob/HEAD/docs/README-cn.md">官方簡介</a>、<a target="_blank" rel="noopener" href="https://cythilya.github.io/2018/08/10/postcss/">PostCSS</a></li>
 <li>SASS/ SCSS/ LESS 屬於預處理器(Preprocessors)，能將書寫的語法轉為 CSS 語法</li>
 <li><strong>一些環境已經支援 PostCSS，例如 laravel, Next.js, Vue cli，可以直接使用，不用再安裝 PostCSS</strong></li>
 </ul>
-<h3 id="安裝-Tailwind-PostCSS-autoprefixer"><a href="#安裝-Tailwind-PostCSS-autoprefixer" class="headerlink" title="安裝 Tailwind, PostCSS, autoprefixer"></a>安裝 Tailwind, PostCSS, autoprefixer</h3><p>安裝 Tailwind 與 PostCSS（autoprefixer 處理瀏覽器前綴詞）<br><code>$ npm install tailwindcss postcss-cli autoprefixer</code></p>
-<h3 id="產生-Tailwind-設定檔"><a href="#產生-Tailwind-設定檔" class="headerlink" title="產生 Tailwind 設定檔"></a>產生 Tailwind 設定檔</h3><p><code>$ npx tailwind init</code> 產生 <code>tailwind.config.js</code> 設定檔，以進行樣式客製化設定</p>
-<h3 id="產生-PostCSS-設定檔"><a href="#產生-PostCSS-設定檔" class="headerlink" title="產生 PostCSS 設定檔"></a>產生 PostCSS 設定檔</h3><p>依<a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/installation">官網</a>指示建立 postcss.config.js 檔案，以進行 tailwind 編譯與處理瀏覽器相容性問題，並將下列程式碼貼到其中來引用 tailwind 和 autoprefixer，在 bundle 時就會進行壓縮。</p>
+<h2 id="安裝-Tailwind-PostCSS-autoprefixer"><a href="#安裝-Tailwind-PostCSS-autoprefixer" class="headerlink" title="安裝 Tailwind, PostCSS, autoprefixer"></a>安裝 Tailwind, PostCSS, autoprefixer</h2><p>安裝 Tailwind 與 PostCSS（autoprefixer 處理瀏覽器前綴詞）<br><code>$ npm install tailwindcss postcss-cli autoprefixer</code></p>
+<h2 id="產生-Tailwind-設定檔"><a href="#產生-Tailwind-設定檔" class="headerlink" title="產生 Tailwind 設定檔"></a>產生 Tailwind 設定檔</h2><p><code>$ npx tailwind init</code> 產生 <code>tailwind.config.js</code> 設定檔，以進行樣式客製化設定</p>
+<h2 id="產生-PostCSS-設定檔"><a href="#產生-PostCSS-設定檔" class="headerlink" title="產生 PostCSS 設定檔"></a>產生 PostCSS 設定檔</h2><p>依<a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/installation">官網</a>指示建立 postcss.config.js 檔案，以進行 tailwind 編譯與處理瀏覽器相容性問題，並將下列程式碼貼到其中來引用 tailwind 和 autoprefixer，在 bundle 時就會進行壓縮。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;tailwindcss&#x27;</span>), <span class="comment">// 編譯 tailwind</span></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;autoprefixer&#x27;</span>), <span class="comment">// 加上前綴字處理瀏覽器相容性問題</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="引用-tailwind-css-內容"><a href="#引用-tailwind-css-內容" class="headerlink" title="引用 tailwind css 內容"></a>引用 tailwind css 內容</h3><p>建立 css 的資料夾，並新增 tailwind.css，這支檔案之後會集中統一管理所有 css 檔案，在此先引入會用到的 tailwind 中的 base, components, utilities，而之後 postcss 會幫忙編譯。</p>
+<h2 id="引用-tailwind-css-內容"><a href="#引用-tailwind-css-內容" class="headerlink" title="引用 tailwind css 內容"></a>引用 tailwind css 內容</h2><p>建立 css 的資料夾，並新增 tailwind.css，這支檔案之後會集中統一管理所有 css 檔案，在此先引入會用到的 tailwind 中的 base, components, utilities，而之後 postcss 會幫忙編譯。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@tailwind</span> base;</span><br><span class="line"><span class="keyword">@tailwind</span> components;</span><br><span class="line"><span class="keyword">@tailwind</span> utilities;</span><br></pre></td></tr></table></figure>
-<h3 id="設定編譯指令"><a href="#設定編譯指令" class="headerlink" title="設定編譯指令"></a>設定編譯指令</h3><p>在 package.json 新增指令來編譯剛剛的 css/tailwind.css，之後執行 <code>npm run build-css</code> public 就會出現編譯好的 build/tailwind.css 檔案了。</p>
+<h2 id="設定編譯指令"><a href="#設定編譯指令" class="headerlink" title="設定編譯指令"></a>設定編譯指令</h2><p>在 package.json 新增指令來編譯剛剛的 css/tailwind.css，之後執行 <code>npm run build-css</code> public 就會出現編譯好的 build/tailwind.css 檔案了。</p>
 <ul>
 <li>沒有使用 PostCss 的設定</li>
 </ul>
@@ -229,13 +229,13 @@
 
 </li>
 </ul>
-<h3 id="引用-css-到-html-中"><a href="#引用-css-到-html-中" class="headerlink" title="引用 css 到 html 中"></a>引用 css 到 html 中</h3><p>在 public 建立 index.html 後，使用 link 語法引入編譯好的 build/tailwind.css 檔，之後就能吃到設定好的樣式了。</p>
+<h2 id="引用-css-到-html-中"><a href="#引用-css-到-html-中" class="headerlink" title="引用 css 到 html 中"></a>引用 css 到 html 中</h2><p>在 public 建立 index.html 後，使用 link 語法引入編譯好的 build/tailwind.css 檔，之後就能吃到設定好的樣式了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;build&#x2F;tailwind.css&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="VScode-相關套件安裝"><a href="#VScode-相關套件安裝" class="headerlink" title="VScode 相關套件安裝"></a>VScode 相關套件安裝</h3><ol>
+<h2 id="VScode-相關套件安裝"><a href="#VScode-相關套件安裝" class="headerlink" title="VScode 相關套件安裝"></a>VScode 相關套件安裝</h2><ol>
 <li>Tailwind CSS IntelliSense: 打 class 會出現相關建議詞彙</li>
 <li>進入設定，調整 <code>tailwindCSS.emmetCompletions</code> 設為 true，開啟 emmet 功能</li>
 </ol>
-<h3 id="使用-Purgecss-為檔案瘦身"><a href="#使用-Purgecss-為檔案瘦身" class="headerlink" title="使用 Purgecss 為檔案瘦身"></a>使用 Purgecss 為檔案瘦身</h3><p>Tailwind 有爆多的 utility class，編譯後其實檔案不小，而使用 <a target="_blank" rel="noopener" href="https://purgecss.com/#sponsors-%F0%9F%A5%B0">PurgeCSS</a> 可以移除未使用到的樣式，為檔案進行瘦身。</p>
+<h2 id="使用-Purgecss-為檔案瘦身"><a href="#使用-Purgecss-為檔案瘦身" class="headerlink" title="使用 Purgecss 為檔案瘦身"></a>使用 Purgecss 為檔案瘦身</h2><p>Tailwind 有爆多的 utility class，編譯後其實檔案不小，而使用 <a target="_blank" rel="noopener" href="https://purgecss.com/#sponsors-%F0%9F%A5%B0">PurgeCSS</a> 可以移除未使用到的樣式，為檔案進行瘦身。</p>
 <ul>
 <li>安裝 PurgeCSS</li>
 </ul>
@@ -247,7 +247,7 @@
 <img src="https://i.imgur.com/f41UJOn.png" width="50%">
 
 <p>執行 build 後的前後差異：<br><img src="https://i.imgur.com/GwSvAz4.png" width="50%"><img src="https://i.imgur.com/hRnKVWD.png" width="50%"></p>
-<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://tailwindcss.com/">tailwindcss</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=21HuwjmuS7A&list=PL7CcGwsqRpSM3w9BT_21tUU8JN2SnyckR">Adam Wathan</a></li>
 </ul>
@@ -270,8 +270,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/10/%E4%B8%8D%E5%8B%B5%E5%BF%97%E7%9A%84%E5%89%8D%E7%AB%AF%E8%BD%89%E8%81%B7%E5%BF%83%E5%BE%97/" rel="prev" title="不勵志的前端轉職心得">
-      <i class="fa fa-chevron-left"></i> 不勵志的前端轉職心得
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83%EF%BC%9A%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C/" rel="prev" title="克服JS奇怪的部分 - 執行環境：程式執行">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 執行環境：程式執行
     </a></div>
       <div class="post-nav-item">
     <a href="/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20-%20%E8%87%AA%E8%A8%82%E6%A8%A3%E5%BC%8F%E8%A8%AD%E5%AE%9A/" rel="next" title="Tailwind 學習紀錄 - 自訂樣式設定">
@@ -342,7 +342,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tailwind-PostCSS-%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Tailwind, PostCSS 簡介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Tailwind-PostCSS-autoprefixer"><span class="nav-number">2.</span> <span class="nav-text">安裝 Tailwind, PostCSS, autoprefixer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A2%E7%94%9F-Tailwind-%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">3.</span> <span class="nav-text">產生 Tailwind 設定檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A2%E7%94%9F-PostCSS-%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">4.</span> <span class="nav-text">產生 PostCSS 設定檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8-tailwind-css-%E5%85%A7%E5%AE%B9"><span class="nav-number">5.</span> <span class="nav-text">引用 tailwind css 內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E7%B7%A8%E8%AD%AF%E6%8C%87%E4%BB%A4"><span class="nav-number">6.</span> <span class="nav-text">設定編譯指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8-css-%E5%88%B0-html-%E4%B8%AD"><span class="nav-number">7.</span> <span class="nav-text">引用 css 到 html 中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VScode-%E7%9B%B8%E9%97%9C%E5%A5%97%E4%BB%B6%E5%AE%89%E8%A3%9D"><span class="nav-number">8.</span> <span class="nav-text">VScode 相關套件安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Purgecss-%E7%82%BA%E6%AA%94%E6%A1%88%E7%98%A6%E8%BA%AB"><span class="nav-number">9.</span> <span class="nav-text">使用 Purgecss 為檔案瘦身</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tailwind-PostCSS-%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Tailwind, PostCSS 簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Tailwind-PostCSS-autoprefixer"><span class="nav-number">2.</span> <span class="nav-text">安裝 Tailwind, PostCSS, autoprefixer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A2%E7%94%9F-Tailwind-%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">3.</span> <span class="nav-text">產生 Tailwind 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A2%E7%94%9F-PostCSS-%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">4.</span> <span class="nav-text">產生 PostCSS 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8-tailwind-css-%E5%85%A7%E5%AE%B9"><span class="nav-number">5.</span> <span class="nav-text">引用 tailwind css 內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E7%B7%A8%E8%AD%AF%E6%8C%87%E4%BB%A4"><span class="nav-number">6.</span> <span class="nav-text">設定編譯指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8-css-%E5%88%B0-html-%E4%B8%AD"><span class="nav-number">7.</span> <span class="nav-text">引用 css 到 html 中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VScode-%E7%9B%B8%E9%97%9C%E5%A5%97%E4%BB%B6%E5%AE%89%E8%A3%9D"><span class="nav-number">8.</span> <span class="nav-text">VScode 相關套件安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Purgecss-%E7%82%BA%E6%AA%94%E6%A1%88%E7%98%A6%E8%BA%AB"><span class="nav-number">9.</span> <span class="nav-text">使用 Purgecss 為檔案瘦身</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -364,7 +364,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
