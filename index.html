@@ -285,7 +285,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87%E3%80%81JS%20%E8%88%87undefined/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -299,7 +299,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87%E3%80%81JS%20%E8%88%87undefined/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 創造與提升、JS 與 undefined</a>
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 關於非同步回呼</a>
         </h2>
 
         <div class="post-meta">
@@ -313,8 +313,307 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87%E3%80%81JS%20%E8%88%87undefined/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 創造與提升、JS 與undefined/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 關於非同步回呼/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="同步執行-synchronous-execution"><a href="#同步執行-synchronous-execution" class="headerlink" title="同步執行 (synchronous execution)"></a>同步執行 (synchronous execution)</h2><blockquote>
+<p>One at a time</p>
+</blockquote>
+<p>And in order…<br>按照「順序」，「一次執行一個，」在 JavaScript 中一次只會發生一件事</p>
+<h2 id="非同步-Asynchronous"><a href="#非同步-Asynchronous" class="headerlink" title="非同步 (Asynchronous)"></a>非同步 (Asynchronous)</h2><p>More than one at a time<br>非同步表示在一個時間點不只一個。<br>可能有一段程式在執行時會開始執行另一段程式碼，然後又會再執行別的程式碼。<br>我流直接結論：JS 可以不用一直等到一件事做完再做下一件事，他可以先把事件丟到事件佇列(Event Queue)，先去執行別的事(執行堆疊 Execution Stacks 中的)，等消化完執行堆疊後，再把事件佇列中的事拉出來完成。<br>所以非同步是假的！！JS 不是一次做很多事，他只是調整了執行的順序，用同步的方式處理非同步事件。<br>JS 本身是同步的，它一次執行一行程式碼。<br>然而瀏覽器本身不是只有 JS，還要和其他引擎(Rendering Engine, Http request..)相互連動運行，只有 JS 是同步的，那麼要如何和其他引擎及請求互相配合時又繼續跑程式碼呢？<br>原文：<br>//JS 一邊要處理自己的程式碼，一邊還要處理一堆雜事，所以此時是非同步的<br>The JavaScript engine has hooks where it can talk to the rendering engine and change what the web page looks like, or go out and request data.<br>while it may be running asynchronously meaning that the rendering engine and the JavaScript engine and request are running asynchronously inside the browse.<br>Image for post<br>JavaScript 引擎內的等待列則稱為事件佇列（event queue）<br>這裡面都是事件、事件通知，這些可能要發生的，所以當瀏覽器，在 JavaScript 引擎外的某處有一個需要被通知的事件，在 JavaScript 引擎裡會被放到佇列裡。<br>當執行堆是空的 JavaScript 才會注意事件佇列。<br>Image for post<br>執行堆的函數尚未被消化，而 EQ 中有尚位處理的 Click 和 HTTP<br>Image for post<br>原本的執行堆被清空了，開始處理 Click 事件，將事件的函數拉出來執行，而 HTTP 待命中<br>//整段都很重要<br>直到 JavaScript 已經逐行執行完程式，所以這不是真正的非同步，而是瀏覽器非同步的把東西放到事件佇列，但原本的程式仍然繼續一行行執行，執行堆空了，執行環境清除了都結束後，才會處理事件。<br>不太重要的課程範例：<br>落落長一堆只是要告訴我們，就算延遲了函式的時間(3 秒，甚至就算是 100 秒也好)，但在這 3 秒間就算怎樣狂點滑鼠，click event!的訊息也不會出現，要等三秒函式跑了 execution stacks 清光了，才會跑事件佇列內的 click 事件。<br>// long running function<br>function waitThreeSeconds() {<br>var ms = 3000 + new Date().getTime();<br>while (new Date() &lt; ms){}<br>console.log(‘finished function’);}<br>function clickHandler() {<br>console.log(‘click event!’);}<br>// listen for the click event<br>document.addEventListener(‘click’, clickHandler);<br>waitThreeSeconds();console.log(‘finished execution’);</p>
+<hr>
+<p>finished function<br>finished execution<br>…..三秒後之前點滑鼠的訊息才會跑出來<br>click event!</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 變數環境、範圍與範圍鏈</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 變數環境、範圍與範圍鏈/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="變數環境-variable-environment"><a href="#變數環境-variable-environment" class="headerlink" title="變數環境 (variable environment)"></a>變數環境 (variable environment)</h2><blockquote>
+<p>Where the variable variables live</p>
+</blockquote>
+<p>And how they relate to each other in memory<br>描述你 <strong>創造</strong> 變數的位置，以及它在記憶體中和其它變數的關係。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%B7%92%E3%80%81%E5%87%BD%E6%95%B8%E5%91%BC%E5%8F%AB%E8%88%87%E5%9F%B7%E8%A1%8C%E5%A0%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%B7%92%E3%80%81%E5%87%BD%E6%95%B8%E5%91%BC%E5%8F%AB%E8%88%87%E5%9F%B7%E8%A1%8C%E5%A0%86/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 執行緒、函數呼叫與執行堆</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%B7%92%E3%80%81%E5%87%BD%E6%95%B8%E5%91%BC%E5%8F%AB%E8%88%87%E5%9F%B7%E8%A1%8C%E5%A0%86/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 執行緒、函數呼叫與執行堆/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="執行緒"><a href="#執行緒" class="headerlink" title="執行緒"></a>執行緒</h2><ul>
+<li><p>單執行緒（singel threaded）</p>
+<blockquote>
+<p>One commeand at a time</p>
+</blockquote>
+<p>Under the hood of the browser, maybe<br>一次執行一個指令，JavaScript 一次只做一件事</p>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%B7%92%E3%80%81%E5%87%BD%E6%95%B8%E5%91%BC%E5%8F%AB%E8%88%87%E5%9F%B7%E8%A1%8C%E5%A0%86/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 程式執行、JS 與 undefined</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 程式執行、JS 與 undefined/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="執行"><a href="#執行" class="headerlink" title="執行"></a>執行</h2><p>前篇文提到的是創造環境，而此處要講的是執行時的情況，在 JavaScript 跑程式碼時：</p>
+<ul>
+<li>第 1 階段創造：JS 設定變數和函數到記憶體中。</li>
+<li>第 2 階段執行：創造階段已經設定好所有的東西，現在執行已經寫好的程式碼逐行編譯、轉換成電腦懂的東西。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 創造與提升</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 創造與提升/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -332,7 +631,7 @@
           <h2 id="提升（Hoisting）"><a href="#提升（Hoisting）" class="headerlink" title="提升（Hoisting）"></a>提升（Hoisting）</h2><p>逐行執行程式碼之前，JavaScript 已經為變數和函數在記憶體中建立一個空間了<br>當語法解析器開始設定轉化程式碼時，它會知道你在哪裡創造變數和函數，並在 <strong>創造階段</strong> 設定變數和函數在記憶體裡，這個步驟就叫做「提升」（hoisting）。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87%E3%80%81JS%20%E8%88%87undefined/#more" rel="contents">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/#more" rel="contents">
                 更多 &raquo;
               </a>
             </div>
@@ -581,88 +880,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/16/%E6%96%B0%E7%9A%84%E9%96%8B%E5%A7%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Iris Huang">
-      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑底白字">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/16/%E6%96%B0%E7%9A%84%E9%96%8B%E5%A7%8B/" class="post-title-link" itemprop="url">搬家，新的開始。</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BF%83%E6%83%85%E8%A8%98%E4%BA%8B/" itemprop="url" rel="index"><span itemprop="name">心情記事</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/01/16/%E6%96%B0%E7%9A%84%E9%96%8B%E5%A7%8B/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/16/新的開始/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>經過思考，決定從 Medium 搬家，建立自己的部落格。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/16/%E6%96%B0%E7%9A%84%E9%96%8B%E5%A7%8B/#more" rel="contents">
-                更多 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 
 
@@ -726,7 +948,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -735,7 +957,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

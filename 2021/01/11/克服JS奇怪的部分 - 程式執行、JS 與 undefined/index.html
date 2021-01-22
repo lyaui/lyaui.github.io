@@ -20,26 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="名稱&#x2F;值配對與物件 A name&#x2F;value pair: A name which maps to a unique value.The name may be defined more than once, but only can have one value in any given context. That value may be more name&#x2F;value pairs.  一個「">
+  <meta name="description" content="執行前篇文提到的是創造環境，而此處要講的是執行時的情況，在 JavaScript 跑程式碼時：  第 1 階段創造：JS 設定變數和函數到記憶體中。 第 2 階段執行：創造階段已經設定好所有的東西，現在執行已經寫好的程式碼逐行編譯、轉換成電腦懂的東西。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="克服JS奇怪的部分 - 全域環境與全域物件">
-<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%85%A8%E5%9F%9F%E7%92%B0%E5%A2%83%E8%88%87%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6/index.html">
+<meta property="og:title" content="克服JS奇怪的部分 - 程式執行、JS 與 undefined">
+<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/index.html">
 <meta property="og:site_name" content="黑底白字">
-<meta property="og:description" content="名稱&#x2F;值配對與物件 A name&#x2F;value pair: A name which maps to a unique value.The name may be defined more than once, but only can have one value in any given context. That value may be more name&#x2F;value pairs.  一個「">
+<meta property="og:description" content="執行前篇文提到的是創造環境，而此處要講的是執行時的情況，在 JavaScript 跑程式碼時：  第 1 階段創造：JS 設定變數和函數到記憶體中。 第 2 階段執行：創造階段已經設定好所有的東西，現在執行已經寫好的程式碼逐行編譯、轉換成電腦懂的東西。">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://miro.medium.com/max/1024/1*m8xirL8SROq1ntaRmKXx8Q.png">
-<meta property="og:image" content="https://miro.medium.com/max/1400/1*ysaEAAjGPZsSzIN3RITkAg.png">
-<meta property="og:image" content="https://miro.medium.com/max/1400/1*m5ReZ3r0YJD8g3HJTXrUIw.png">
-<meta property="og:image" content="https://miro.medium.com/max/1400/1*KkQPeQ9iZq6ZR_DcGpLA9Q.png">
-<meta property="article:published_time" content="2021-01-11T10:33:34.000Z">
-<meta property="article:modified_time" content="2021-01-21T04:01:12.022Z">
+<meta property="article:published_time" content="2021-01-11T10:33:36.000Z">
+<meta property="article:modified_time" content="2021-01-21T04:01:30.807Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="克服JS奇怪的部分">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://miro.medium.com/max/1024/1*m8xirL8SROq1ntaRmKXx8Q.png">
 
-<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%85%A8%E5%9F%9F%E7%92%B0%E5%A2%83%E8%88%87%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6/">
+<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/">
 
 
 <script id="page-configurations">
@@ -52,7 +47,7 @@
   };
 </script>
 
-  <title>克服JS奇怪的部分 - 全域環境與全域物件 | 黑底白字</title>
+  <title>克服JS奇怪的部分 - 程式執行、JS 與 undefined | 黑底白字</title>
   
 
 
@@ -152,7 +147,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%85%A8%E5%9F%9F%E7%92%B0%E5%A2%83%E8%88%87%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -165,7 +160,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          克服JS奇怪的部分 - 全域環境與全域物件
+          克服JS奇怪的部分 - 程式執行、JS 與 undefined
         </h1>
 
         <div class="post-meta">
@@ -179,8 +174,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%85%A8%E5%9F%9F%E7%92%B0%E5%A2%83%E8%88%87%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 全域環境與全域物件/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 程式執行、JS 與 undefined/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -195,37 +190,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="名稱-值配對與物件"><a href="#名稱-值配對與物件" class="headerlink" title="名稱/值配對與物件"></a>名稱/值配對與物件</h2><blockquote>
-<p>A name/value pair: A name which maps to a unique value.<br>The name may be defined more than once, but only can have one value in any given context. That value may be more name/value pairs.</p>
-</blockquote>
-<p>一個「名稱/值」的配對，代表一個名稱只會對應到唯一的值，然而一個值卻可以對應到複數的名稱。<br>例如：路人 A 的名字(name)是 Iris(value)，而 Iris 也可以是路人 BCDE 的名字。</p>
-<a id="more"></a>
-
-<blockquote>
-<p>A collection of name value pairs.</p>
-</blockquote>
-<p>而物件，就是名稱/值配對的組合。</p>
-<img src="https://miro.medium.com/max/1024/1*m8xirL8SROq1ntaRmKXx8Q.png" width="25%">
-
-<h2 id="全域物件-Global"><a href="#全域物件-Global" class="headerlink" title="全域物件 Global"></a>全域物件 Global</h2><p>不論何時跑 JavaScript ， 它都在執行環境（execution context）中執行，而全域執行環境會創造 2 個東西，無論程式碼何時執行，程式碼都被包在執行環境中，而這兩個東西 JavaScript 都為你建立好了。</p>
-<img src="https://miro.medium.com/max/1400/1*ysaEAAjGPZsSzIN3RITkAg.png" width="50%">
-
-<ol>
-<li><p>全域物件（Global Object）</p>
-<blockquote>
-<p>Not inside a function.</p>
-</blockquote>
-<p>如果你的變數和物件不在函數裡，那它們就是全域物件，而我們可以在任何地方取用它們。</p>
-</li>
-<li><p>特殊變數 this<br>空白的 JS 檔案已存在全域物件和 this，而此時在瀏覽器中的 this 指的就是 window 物件。</p>
-<img src="https://miro.medium.com/max/1400/1*m5ReZ3r0YJD8g3HJTXrUIw.png" width="80%">
+        <h2 id="執行"><a href="#執行" class="headerlink" title="執行"></a>執行</h2><p>前篇文提到的是創造環境，而此處要講的是執行時的情況，在 JavaScript 跑程式碼時：</p>
+<ul>
+<li>第 1 階段創造：JS 設定變數和函數到記憶體中。</li>
+<li>第 2 階段執行：創造階段已經設定好所有的東西，現在執行已經寫好的程式碼逐行編譯、轉換成電腦懂的東西。<a id="more"></a>
 
 </li>
-</ol>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>JavaScript 程式碼在瀏覽器中被執行時，會建立執行環境(Execution Context)，並在其中建立並包裹住 1.全域物件、2.指向 window 的 this。</p>
-<p>因為全域不存在於任何的函數中，已經是在最外層，也就沒有外部環境(Outer Environment)，此時外部環境會為 null。</p>
-<img src="https://miro.medium.com/max/1400/1*KkQPeQ9iZq6ZR_DcGpLA9Q.png" width="50%">
-
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="built_in">console</span>.log(a); <span class="comment">// undefined</span></span><br><span class="line"><span class="number">2.</span> <span class="keyword">var</span> a = <span class="string">&#x27;123&#x27;</span>;</span><br><span class="line"><span class="number">3.</span> <span class="built_in">console</span>.log(a); <span class="comment">//123</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 創造：跑到 2 宣告了 a，a 已存在於記憶體中，並給予預設值 defined，因為還沒有開始執行，所以不知道 a 的值，要執行時才會知道。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 執行：跑到 1 時-預設 a 值是 undefined</span></span><br><span class="line"><span class="comment">// 跑到 2 時-將 &#x27;123&#x27; 填入 a 取代 undefined，現在 a 是 &#x27;123&#x27;</span></span><br><span class="line"><span class="comment">// 跑到 3 時-將 a = &#x27;123&#x27; 代入</span></span><br></pre></td></tr></table></figure>
+<h2 id="Undefined-VS-Not-defined"><a href="#Undefined-VS-Not-defined" class="headerlink" title="Undefined VS Not defined"></a>Undefined VS Not defined</h2><p>簡單而言，創造階段時依 <strong>有沒有被宣告</strong>（記憶體中是否存在），決定是 undefined 還是 not defined，然後執行階段時將 undefined 替換成賦予的值。</p>
+<ul>
+<li>Undefined: <strong>被宣告過</strong> 已存在於記憶體中，但尚未被賦值。undefined 是 JavaScript 設定的 <strong>初始值</strong>，會佔據記憶體空間的特殊關鍵字。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">//undefined</span></span><br><span class="line"><span class="keyword">var</span> a;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Not defined: <strong>未被宣告過</strong>，記憶體中根本不存在。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">//b is not defined.</span></span><br></pre></td></tr></table></figure>
+<p>＊最好不要手動去設定賦值 undefined (a = undefined)，而是保離系統預設的狀態。</p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
 </ul>
@@ -248,12 +230,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83%EF%BC%9A%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C/" rel="prev" title="克服JS奇怪的部分 - 執行環境：程式執行">
-      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 執行環境：程式執行
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/" rel="prev" title="克服JS奇怪的部分 - 創造與提升">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 創造與提升
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/" rel="next" title="克服JS奇怪的部分 - 創造與提升">
-      克服JS奇怪的部分 - 創造與提升 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%B7%92%E3%80%81%E5%87%BD%E6%95%B8%E5%91%BC%E5%8F%AB%E8%88%87%E5%9F%B7%E8%A1%8C%E5%A0%86/" rel="next" title="克服JS奇怪的部分 - 執行緒、函數呼叫與執行堆">
+      克服JS奇怪的部分 - 執行緒、函數呼叫與執行堆 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -320,7 +302,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E7%A8%B1-%E5%80%BC%E9%85%8D%E5%B0%8D%E8%88%87%E7%89%A9%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">名稱&#x2F;值配對與物件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6-Global"><span class="nav-number">2.</span> <span class="nav-text">全域物件 Global</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">執行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Undefined-VS-Not-defined"><span class="nav-number">2.</span> <span class="nav-text">Undefined VS Not defined</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -441,9 +423,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%85%A8%E5%9F%9F%E7%92%B0%E5%A2%83%E8%88%87%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6/";
-    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 全域環境與全域物件/";
-    this.page.title = "克服JS奇怪的部分 - 全域環境與全域物件";
+    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/";
+    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 程式執行、JS 與 undefined/";
+    this.page.title = "克服JS奇怪的部分 - 程式執行、JS 與 undefined";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
