@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="動態型別 (Dynamic Typing) You don’t tell the engine what type of data a variable holds, it figures it out while your code is runnung  Variable can hold different types of values because it’s all figured o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="克服JS奇怪的部分 - 關於非同步回呼">
+<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/index.html">
+<meta property="og:site_name" content="黑底白字">
+<meta property="og:description" content="動態型別 (Dynamic Typing) You don’t tell the engine what type of data a variable holds, it figures it out while your code is runnung  Variable can hold different types of values because it’s all figured o">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-01-11T10:33:40.000Z">
+<meta property="article:modified_time" content="2021-01-25T04:15:00.716Z">
+<meta property="article:author" content="Iris Huang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="克服JS奇怪的部分">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-tw'
+  };
+</script>
+
+  <title>克服JS奇怪的部分 - 關於非同步回呼 | 黑底白字</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">黑底白字</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主頁">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主頁</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          克服JS奇怪的部分 - 關於非同步回呼
+        </h1>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 型別與運算子/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="動態型別-Dynamic-Typing"><a href="#動態型別-Dynamic-Typing" class="headerlink" title="動態型別 (Dynamic Typing)"></a>動態型別 (Dynamic Typing)</h2><blockquote>
+<p>You don’t tell the engine what type of data a variable holds, it figures it out while your code is runnung</p>
+</blockquote>
+<p>Variable can hold different types of values because it’s all figured out during execution.<br>一變數可以在不同時候擁有不同型別，不用告訴 JavaScript 變數是何種型別的資料，它會在程式 <strong>執行時</strong> 自動知道。</p>
+<ul>
+<li>動態/靜態型別：是否設定變數的型別</li>
+<li>強/弱型別：型別是否會發生轉型</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="純值-Primitive-Type"><a href="#純值-Primitive-Type" class="headerlink" title="純值 (Primitive Type)"></a>純值 (Primitive Type)</h2><blockquote>
+<p>A type of data that represents a single value</p>
+</blockquote>
+<p>That is, not an object.</p>
+<ul>
+<li>Undefined: 還不存在。JavaScript 給所有變數的初始值，直到你給定變數一個值，你不應該用它來設定值</li>
+<li>null: 也表示不存在。別用 undefined 但可以用 null</li>
+<li>Boolean: true or false</li>
+<li>number: 浮點數，一定永遠有小數點跟在後面</li>
+<li>string: 一連串的字符所組成 單引號和雙引號都可以來表示字串</li>
+<li>symbol</li>
+</ul>
+<h2 id="運算子-Operator"><a href="#運算子-Operator" class="headerlink" title="運算子 (Operator)"></a>運算子 (Operator)</h2><blockquote>
+<p>A special function that is syntactically(written) differently</p>
+</blockquote>
+<p>Generally, operators take two parameters and return one result.<br>運算子都是函數。</p>
+<h2 id="運算子優先性-Operator-Precedence"><a href="#運算子優先性-Operator-Precedence" class="headerlink" title="運算子優先性 (Operator Precedence)"></a>運算子優先性 (Operator Precedence)</h2><blockquote>
+<p>Which operator function gets called first</p>
+</blockquote>
+<p>Functions are called in order of precedence (HIGHER precedence wins).<br>哪個運算子被優先運算，具有高優先性的運算子會先計算。</p>
+<h2 id="相依性-Associaticvity"><a href="#相依性-Associaticvity" class="headerlink" title="相依性 (Associaticvity)"></a>相依性 (Associaticvity)</h2><blockquote>
+<p>What order operator functions get called in: LEFT-TO-RIGHT or RIGHT-TO-LEFT</p>
+</blockquote>
+<p>When functions have the same precedence.<br>運算子被計算的順序，左相依性/右相依性，如果全部的運算子優先性都相同，這時就要看相依性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MDN 運算參考</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>, b = <span class="number">3</span>, c = <span class="number">4</span>;</span><br><span class="line">a = b = c;</span><br><span class="line"><span class="built_in">console</span>.log(a, b, c) <span class="comment">// 4, 4, 4</span></span><br><span class="line">優先性相同，故以相依性判斷，= 是由右至左</span><br></pre></td></tr></table></figure>
+<h2 id="強制型轉-Coercion"><a href="#強制型轉-Coercion" class="headerlink" title="強制型轉 (Coercion)"></a>強制型轉 (Coercion)</h2><blockquote>
+<p>Converting a value from one type to another.</p>
+</blockquote>
+<p>This happens quite often in JavaScript because it’s dynamically typed.<br>強制型轉，轉換一個值的型別。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span> + <span class="string">&#x27;2&#x27;</span>; <span class="comment">// 1 被強制轉換成&#x27;1&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(a) = <span class="string">&#x27;12&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="比較運算子"><a href="#比較運算子" class="headerlink" title="比較運算子"></a>比較運算子</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span> &lt; <span class="number">2</span> &lt; <span class="number">1</span>) = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+<p>因為運算子都相同所以優先性相同<br>因此依相依性判斷，&lt;是左相依性，因此由最左兩的開始判斷</p>
+<p>3 &lt; 2 false</p>
+<p>console.log(false &lt; 1)<br>而 false 型轉後=0 //Number(false) = 0<br>0 &lt; 1 true<br>因此 console.log(3 &lt; 2 &lt; 1) = true<br>盡量使用===來進行比較，以避免型轉的問題！！<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness">各種相等性的比較表</a></p>
+<h2 id="存在與布林"><a href="#存在與布林" class="headerlink" title="存在與布林"></a>存在與布林</h2><p>if 條件函式會強制將()內轉換為 Boolean<br><code>null/ undefined/ false/ &#39;&#39;/ 0</code> 都會被判斷為 false</p>
+<h2 id="預設值-Default-value"><a href="#預設值-Default-value" class="headerlink" title="預設值 (Default value)"></a>預設值 (Default value)</h2><p>＊ES6 有其他的設定方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  name = name || <span class="string">&#x27;&lt;Your name here&gt;&#x27;</span>; <span class="comment">//預設值</span></span><br><span class="line">  <span class="built_in">console</span>.log(‘Hello ‘ + name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>greet() 的情況：‘Hello <Your name here>‘<br>||層級高於 = ，因此先由 name || ‘<Your name here>’開始運算<br>會回傳 ‘<Your name here>’，因為 name 是 undefined 屬 false 而字串是 true<br>此時再執行 name=‘<Your name here>’。 2. greet( ‘Tony’ ) 的情況：‘Hello Tony’<br>將 ’Tony’代入 name，而’Tony’ || ‘<Your name here>’兩個都是 true，會回傳第一個 true 也就是 name，也就是 ‘Tony’ ，而此時再執行 name=’Tony’。<br>＊需注意當值帶入 0 時也會被判斷為 false 屬於特例</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86/" rel="tag"># 克服JS奇怪的部分</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/" rel="prev" title="克服JS奇怪的部分 - 關於非同步回呼">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 關於非同步回呼
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20-%20%E5%AE%89%E8%A3%9D%E8%A8%AD%E5%AE%9A%20Tailwind,%20PostCSS,%20PurgeCSS/" rel="next" title="Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS">
+      Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8B%95%E6%85%8B%E5%9E%8B%E5%88%A5-Dynamic-Typing"><span class="nav-number">1.</span> <span class="nav-text">動態型別 (Dynamic Typing)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%94%E5%80%BC-Primitive-Type"><span class="nav-number">2.</span> <span class="nav-text">純值 (Primitive Type)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%8B%E7%AE%97%E5%AD%90-Operator"><span class="nav-number">3.</span> <span class="nav-text">運算子 (Operator)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%8B%E7%AE%97%E5%AD%90%E5%84%AA%E5%85%88%E6%80%A7-Operator-Precedence"><span class="nav-number">4.</span> <span class="nav-text">運算子優先性 (Operator Precedence)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E4%BE%9D%E6%80%A7-Associaticvity"><span class="nav-number">5.</span> <span class="nav-text">相依性 (Associaticvity)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%B7%E5%88%B6%E5%9E%8B%E8%BD%89-Coercion"><span class="nav-number">6.</span> <span class="nav-text">強制型轉 (Coercion)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%AD%90"><span class="nav-number">7.</span> <span class="nav-text">比較運算子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E8%88%87%E5%B8%83%E6%9E%97"><span class="nav-number">8.</span> <span class="nav-text">存在與布林</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A0%90%E8%A8%AD%E5%80%BC-Default-value"><span class="nav-number">9.</span> <span class="nav-text">預設值 (Default value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Iris Huang</p>
+  <div class="site-description" itemprop="description">記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iris Huang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-lyaui-github-io.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/";
+    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 型別與運算子/";
+    this.page.title = "克服JS奇怪的部分 - 關於非同步回呼";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://https-lyaui-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
