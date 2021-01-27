@@ -285,7 +285,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -299,7 +299,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 物件</a>
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 物件的建立與賦值、物件實體</a>
         </h2>
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 物件/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 物件的建立與賦值、物件實體/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -329,19 +329,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>物件：一群「名稱/值」的組合，而這些值也可以是另一個「名稱/值」的組合。<br>物件在記憶體中有個位置，能夠參考到其他和它相關東西的記憶體位置，所以它知道那些不同的屬性（純值、其他物件）和方法（函式）在哪。<br>Image for post<br>物件的值可以是：純值（屬性）/其他的物件（屬性）/函式（方法）<br>物件與「點」<br>var person = new Object() //建立新的物件，不推薦用這種方式</p>
-<hr>
-<p>法 1: 使用 物件[名稱] 的方式新增值<br>person[‘first name’]=’Tony’;<br>var firstNameProperty = ‘first name’<br>console.log(person[firstNameProperty]) //‘Tony’</p>
-<hr>
-<p>法 2（較推薦）: 使用 物件.名稱 的方式新增值<br>person.address = new Object();<br>person.address.city=’New York’</p>
-<hr>
-<p>console.log(person.address.city) //’New York’<br>console.log(person[‘address’][‘city’]) //’New York’<br>物件與物件實體<br>直接建立大括號與內附名稱與值，較推薦<br>var Tony = {<br>firstname:’Tony’,<br>Lastname:’Alicea’,<br>address:{<br>street:’111 Main St.’,<br>city:’New York’,<br>state:’NY’}<br>}<br>框架-偽裝命名空間<br>命名空間(Namespace)<br>A container for variables and functions<br>Typically to keep variables and functions with the same name separate.<br>一個包裝物、一個容器，通常用來維持變數和函數的名稱分開。<br>var greet = ‘Hello!’;<br>var greet = ‘Hola!’;<br>console.log(greet); //當變數撞名時，前者被後者複寫掉</p>
-<hr>
-<p>利用物件當作容器，偽裝成命名空間，避免變數重複的衝突問題。<br>var english = {<br>greet:’Hello’}<br>var spanish = {<br>greet:‘Hola!’}<br>english.greet = ‘Hello’<br>spanish.greet = ‘Halo’<br>JSON 與物件實體<br>JavaScript Object Notation (JSON)&lt;<br>JSON 是被 JavaScript 的物件實體語法啟發，是個網路傳送資料的好格式。<br>規定：屬性需要被包在引號裡面<br>{<br>“firstname”: ‘Mary’,<br>“isprogrammer”: true<br>}<br>將物件轉換為 JSON 格式：<br>var objectLiteral= {<br>firstname: ‘Mary’,<br>isprogrammer: true}<br>JSON.stringnify(objectLiteral)<br>將 JSON 轉換為物件格式：<br>var jsonValue =<br>JSON.parse(‘{ “firstname”: ‘Mary’, “isprogrammer”: true }’)</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
-</ul>
-
+          <h2 id="物件的建立與賦值"><a href="#物件的建立與賦值" class="headerlink" title="物件的建立與賦值"></a>物件的建立與賦值</h2><p>物件是一群「名稱/值」的組合，而這些值也可以是另一個「名稱/值」的組合。而物件的值可以是：</p>
+<ul>
+<li>純值（屬性）</li>
+<li>其他的物件（屬性）</li>
+<li>函式（方法）
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
