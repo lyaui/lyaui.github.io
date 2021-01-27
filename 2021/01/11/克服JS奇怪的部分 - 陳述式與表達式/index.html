@@ -20,23 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="提升（Hoisting）逐行執行程式碼之前，JavaScript 已經為變數和函數在記憶體中建立一個空間了當語法解析器開始設定轉化程式碼時，它會知道你在哪裡創造變數和函數，並在 創造階段 設定變數和函數在記憶體裡，這個步驟就叫做「提升」（hoisting）。">
+  <meta name="description" content="表達式 (Expression) A unit of code that result un a value.  It doesn’t have to save to a variable.表示式是程式碼的單位，會形成&#x2F;回傳一個值，而這個值不一定要儲存在某個變數。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="克服JS奇怪的部分 - 創造與提升">
-<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/index.html">
+<meta property="og:title" content="克服JS奇怪的部分 - 陳述式與表達式">
+<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%99%B3%E8%BF%B0%E5%BC%8F%E8%88%87%E8%A1%A8%E9%81%94%E5%BC%8F/index.html">
 <meta property="og:site_name" content="黑底白字">
-<meta property="og:description" content="提升（Hoisting）逐行執行程式碼之前，JavaScript 已經為變數和函數在記憶體中建立一個空間了當語法解析器開始設定轉化程式碼時，它會知道你在哪裡創造變數和函數，並在 創造階段 設定變數和函數在記憶體裡，這個步驟就叫做「提升」（hoisting）。">
+<meta property="og:description" content="表達式 (Expression) A unit of code that result un a value.  It doesn’t have to save to a variable.表示式是程式碼的單位，會形成&#x2F;回傳一個值，而這個值不一定要儲存在某個變數。">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://miro.medium.com/max/1400/1*3xsWM1Y3Au4sqn2hZbseQg.png">
-<meta property="article:published_time" content="2021-01-11T10:33:35.000Z">
-<meta property="article:modified_time" content="2021-01-21T10:17:26.469Z">
+<meta property="article:published_time" content="2021-01-11T10:33:43.000Z">
+<meta property="article:modified_time" content="2021-01-27T09:05:26.399Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="克服JS奇怪的部分">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://miro.medium.com/max/1400/1*3xsWM1Y3Au4sqn2hZbseQg.png">
 
-<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/">
+<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%99%B3%E8%BF%B0%E5%BC%8F%E8%88%87%E8%A1%A8%E9%81%94%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -49,7 +47,7 @@
   };
 </script>
 
-  <title>克服JS奇怪的部分 - 創造與提升 | 黑底白字</title>
+  <title>克服JS奇怪的部分 - 陳述式與表達式 | 黑底白字</title>
   
 
 
@@ -149,7 +147,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%99%B3%E8%BF%B0%E5%BC%8F%E8%88%87%E8%A1%A8%E9%81%94%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -162,7 +160,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          克服JS奇怪的部分 - 創造與提升
+          克服JS奇怪的部分 - 陳述式與表達式
         </h1>
 
         <div class="post-meta">
@@ -176,8 +174,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 創造與提升/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%99%B3%E8%BF%B0%E5%BC%8F%E8%88%87%E8%A1%A8%E9%81%94%E5%BC%8F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 陳述式與表達式/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -192,17 +190,44 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="提升（Hoisting）"><a href="#提升（Hoisting）" class="headerlink" title="提升（Hoisting）"></a>提升（Hoisting）</h2><p>逐行執行程式碼之前，JavaScript 已經為變數和函數在記憶體中建立一個空間了<br>當語法解析器開始設定轉化程式碼時，它會知道你在哪裡創造變數和函數，並在 <strong>創造階段</strong> 設定變數和函數在記憶體裡，這個步驟就叫做「提升」（hoisting）。</p>
+        <h2 id="表達式-Expression"><a href="#表達式-Expression" class="headerlink" title="表達式 (Expression)"></a>表達式 (Expression)</h2><blockquote>
+<p>A unit of code that result un a value.</p>
+</blockquote>
+<p>It doesn’t have to save to a variable.<br>表示式是程式碼的單位，會形成/回傳一個值，而這個值不一定要儲存在某個變數。</p>
 <a id="more"></a>
 
-<img src="https://miro.medium.com/max/1400/1*3xsWM1Y3Au4sqn2hZbseQg.png" width="60%">
-
-<h2 id="函數的提升"><a href="#函數的提升" class="headerlink" title="函數的提升"></a>函數的提升</h2><p>變數和函數已經存在於記憶體中，所以當程式被逐行執行時可以找到它們，函數已經全部在記憶體了，代表函數裡面的程式碼已經被執行了。（比變數優先提升）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">b(); <span class="comment">// &#x27;Called b!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Called b!&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="變數的提升"><a href="#變數的提升" class="headerlink" title="變數的提升"></a>變數的提升</h2><p>JavaScript 為 a 空出記憶體空間時，它不知道 a 會是什麼值，直到它被執行才知道。因此先放上 undefined 的替代文字，表示「我還不知道他的值」，如果我們都不設值的話也會得到一樣的替代文字 undefined。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;Hello World!&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>所有 JavaScript 的變數一開始都會被設定為 undefined（預設值），然後函數則是完全被設定好放進記憶體中。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">whosName();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whosName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (myName) &#123;</span><br><span class="line">    myName = <span class="string">&#x27;杰倫&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myName = <span class="string">&#x27;小明&#x27;</span>;</span><br><span class="line"><span class="built_in">console</span>.log(myName); <span class="comment">//小明</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 創造階段</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whosName</span>(<span class="params"></span>) </span>&#123;&#125; <span class="comment">// 優先提升函式</span></span><br><span class="line"><span class="keyword">var</span> myName; <span class="comment">// 宣告變數，提升預留為 undefined -執行階段</span></span><br><span class="line">whosName(); <span class="comment">// 呼叫函數</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whosName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (myName) &#123;</span><br><span class="line">    myName = <span class="string">&#x27;杰倫&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="comment">// 此時 undefined 為 false，條件不成立，不賦值</span></span><br><span class="line">myName = <span class="string">&#x27;小明&#x27;</span>; <span class="comment">// 賦值 myName = &#x27;小明&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(myName); <span class="comment">// myName = &#x27;小明&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">3</span>; <span class="comment">// 回傳 3</span></span><br><span class="line"><span class="number">1</span> + <span class="number">2</span>; <span class="comment">// 回傳 3</span></span><br></pre></td></tr></table></figure>
+<h2 id="陳述式-v-s-表達式"><a href="#陳述式-v-s-表達式" class="headerlink" title="陳述式 v.s. 表達式"></a>陳述式 v.s. 表達式</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>陳述式</th>
+<th>表示式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>回傳值</td>
+<td>X</td>
+<td>V</td>
+</tr>
+<tr>
+<td>Hoisting</td>
+<td>V</td>
+<td>X</td>
+</tr>
+</tbody></table>
+<h2 id="陳述式-與-表達式-的提升-Hoisting"><a href="#陳述式-與-表達式-的提升-Hoisting" class="headerlink" title="陳述式 與 表達式 的提升 (Hoisting)"></a>陳述式 與 表達式 的提升 (Hoisting)</h2><ul>
+<li>陳述式<br>已於記憶體預留空間宣告為 fn，也就是說函數已經全部在記憶體中了，所以當程式被逐行執行時可以找到它們，因此函數裡面的程式碼可以被執行。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">greet(); <span class="comment">// 有 hoisting</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 陳述式在宣告時就已經被寫入記憶體</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;hi&#x27;</span>); <span class="comment">// &#x27;hi&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>表示式<br>匿名函式被以變數的方式宣告，而變數在創造階段時會在記憶體中被設定成預設值 undefined，直到執行的時候才會被賦予成函式。</p>
+<p>因此若在賦值之前先執行的話，等同執行 undefined，但因為 undefined 並不是函式，故會得到 Undefined is not a function 的警告。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">anonymousGreet(); <span class="comment">// Undefined is not a function</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//以下表達式會回傳一個函數物件(fn)</span></span><br><span class="line"><span class="keyword">var</span> anonymousGreet = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;hi&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 此時的 anonymousGreet 已被賦值，可呼叫函數</span></span><br><span class="line">anonymousGreet(); <span class="comment">// &#x27;hi&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>＊一級函數概念的運用：函數就是物件，傳入別的地方可以很快被創造和使用， 把函數給另一個函數，就像使用變數一樣，引入一個全新的型態到程式語言中，稱為函數程式語言 （Functional Programming）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  a();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// log 參數可以帶入 string, number, object..當然也可以帶入 fn，因為 fn 就是物件</span></span><br><span class="line">log(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;hi&#x27;</span>); <span class="comment">//hi</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
 </ul>
@@ -225,12 +250,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%85%A8%E5%9F%9F%E7%92%B0%E5%A2%83%E8%88%87%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6/" rel="prev" title="克服JS奇怪的部分 - 全域環境與全域物件">
-      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 全域環境與全域物件
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E4%B8%80%E7%B4%9A%E5%87%BD%E6%95%B8%E3%80%81%E5%87%BD%E6%95%B8%E5%B0%B1%E6%98%AF%E7%89%A9%E4%BB%B6/" rel="prev" title="克服JS奇怪的部分 - 一級函數、函數就是物件">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 一級函數、函數就是物件
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/" rel="next" title="克服JS奇怪的部分 - 程式執行、JS 與 undefined">
-      克服JS奇怪的部分 - 程式執行、JS 與 undefined <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%82%B3%E5%80%BC%E5%92%8C%E5%82%B3%E5%8F%83%E8%80%83/" rel="next" title="克服JS奇怪的部分 - 傳值和傳參考">
+      克服JS奇怪的部分 - 傳值和傳參考 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -297,7 +322,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8D%87%EF%BC%88Hoisting%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">提升（Hoisting）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B8%E7%9A%84%E6%8F%90%E5%8D%87"><span class="nav-number">2.</span> <span class="nav-text">函數的提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%8A%E6%95%B8%E7%9A%84%E6%8F%90%E5%8D%87"><span class="nav-number">3.</span> <span class="nav-text">變數的提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">4.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E9%81%94%E5%BC%8F-Expression"><span class="nav-number">1.</span> <span class="nav-text">表達式 (Expression)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%B3%E8%BF%B0%E5%BC%8F-v-s-%E8%A1%A8%E9%81%94%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">陳述式 v.s. 表達式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%B3%E8%BF%B0%E5%BC%8F-%E8%88%87-%E8%A1%A8%E9%81%94%E5%BC%8F-%E7%9A%84%E6%8F%90%E5%8D%87-Hoisting"><span class="nav-number">3.</span> <span class="nav-text">陳述式 與 表達式 的提升 (Hoisting)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -418,9 +443,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/";
-    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 創造與提升/";
-    this.page.title = "克服JS奇怪的部分 - 創造與提升";
+    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%99%B3%E8%BF%B0%E5%BC%8F%E8%88%87%E8%A1%A8%E9%81%94%E5%BC%8F/";
+    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 陳述式與表達式/";
+    this.page.title = "克服JS奇怪的部分 - 陳述式與表達式";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
