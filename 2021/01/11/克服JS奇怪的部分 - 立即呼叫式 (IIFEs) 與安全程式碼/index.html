@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="立即函式 IIFEs (Immediately Invoked Function Expression) 定義完馬上就執行的函式。   是使用 Grouping Operator () 包起來的匿名函式。這樣的寫法可以避免裡面的變數污染到 global scope。 馬上執行 function 的 expression ()，JavaScript 引擎看到它就會立刻轉譯該 function。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼">
+<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/index.html">
+<meta property="og:site_name" content="黑底白字">
+<meta property="og:description" content="立即函式 IIFEs (Immediately Invoked Function Expression) 定義完馬上就執行的函式。   是使用 Grouping Operator () 包起來的匿名函式。這樣的寫法可以避免裡面的變數污染到 global scope。 馬上執行 function 的 expression ()，JavaScript 引擎看到它就會立刻轉譯該 function。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*iQv20Qtr29iUXNaDabh1JQ.png">
+<meta property="article:published_time" content="2021-01-11T10:33:47.000Z">
+<meta property="article:modified_time" content="2021-01-28T08:28:30.205Z">
+<meta property="article:author" content="Iris Huang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="克服JS奇怪的部分">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miro.medium.com/max/1400/1*iQv20Qtr29iUXNaDabh1JQ.png">
+
+<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-tw'
+  };
+</script>
+
+  <title>克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼 | 黑底白字</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">黑底白字</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主頁">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主頁</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼
+        </h1>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="立即函式-IIFEs-Immediately-Invoked-Function-Expression"><a href="#立即函式-IIFEs-Immediately-Invoked-Function-Expression" class="headerlink" title="立即函式 IIFEs (Immediately Invoked Function Expression)"></a>立即函式 IIFEs (Immediately Invoked Function Expression)</h2><blockquote>
+<p>定義完馬上就執行的函式。</p>
+</blockquote>
+<ul>
+<li>是使用 Grouping Operator () 包起來的匿名函式。這樣的寫法可以避免裡面的變數污染到 global scope。</li>
+<li>馬上執行 function 的 expression ()，JavaScript 引擎看到它就會立刻轉譯該 function。<a id="more"></a>
+
+</li>
+</ul>
+<p>使用一般的陳述式與表達式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function statement</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Hello&#x27;</span> + name);</span><br><span class="line">&#125;</span><br><span class="line">greet(<span class="string">&#x27;Iris&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// function expression</span></span><br><span class="line"><span class="keyword">var</span> greetFunc = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Hello&#x27;</span> + name);</span><br><span class="line">&#125;;</span><br><span class="line">greetFunc(<span class="string">&#x27;Iris&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>使用立即函式 IIFE，在定義後就立即執行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> greeting = (<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;Hello&#x27;</span> + name;</span><br><span class="line">&#125;)(<span class="string">&#x27;Iris&#x27;</span>); <span class="comment">// 立即呼叫，回傳字串 &#x27;Hello Iris&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(greeting); <span class="comment">// &#x27;Hello Iris&#x27; 回傳的字串</span></span><br><span class="line"><span class="built_in">console</span>.log(greeting()); <span class="comment">// string (即 &#x27;Hello Iris&#x27;) is not a function，已立即呼叫過了</span></span><br></pre></td></tr></table></figure>
+<h2 id="IIFEs-與表達式"><a href="#IIFEs-與表達式" class="headerlink" title="IIFEs 與表達式"></a>IIFEs 與表達式</h2><p>IIFE 轉換為 expression 形式並馬上執行，function scope 內的變數在外面無法存取的（避免變數污染）</p>
+<p>在瀏覽器中隨意輸入：</p>
+<ul>
+<li>數字：<code>428</code>，可以正常回傳數字</li>
+<li>字串：<code>&#39;Hello world!&#39;;</code>，可以正常回傳字串</li>
+<li>物件：<code>&#123; name:&#39;Iris&#39; &#125;;</code>，可以正常回傳物件</li>
+<li>函數：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一般函式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greeting</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Hello&#x27;</span> + name)&#125;; <span class="comment">// 回傳 Undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 匿名函式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Hello&#x27;</span> + name)&#125;; <span class="comment">// 報錯，回傳 Unexpected token</span></span><br></pre></td></tr></table></figure>
+<p>語法解析器看到 function 這個字在一行的最前面或是接在分號後，語法解析器預期會這是一個函數陳述句，它想要函數有名稱 <strong>不可以是匿名的</strong>。如果寫了 function，這個匿名函式是個陳述句會發生上面的 Unexpected token 問題，因此，只要確保 function 這個字不是程式碼的第一個字母，就不會有問題了。</p>
+<p>使用 () 將函式包住 <strong>轉換為表達式</strong> 的寫法，因為 () 內永遠都會是表達式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//expression</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Hello&#x27;</span> + name);</span><br><span class="line">&#125;)(<span class="string">&#x27;Iris&#x27;</span>); <span class="comment">// 立即呼叫</span></span><br></pre></td></tr></table></figure>
+<h2 id="IIFEs-與安全程式碼"><a href="#IIFEs-與安全程式碼" class="headerlink" title="IIFEs 與安全程式碼"></a>IIFEs 與安全程式碼</h2><p>當 IIFE 被創造然後呼叫時，會產生一個新的執行環境，而此時的環境和其它的環境是分開處於不同的記憶體位置中，可以確保程式碼被包在 IIFE 中很安全，不會與其他東西衝突。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全域環境中的 greeting = &#x27;Hola&#x27;</span></span><br><span class="line"><span class="keyword">var</span> greeting = <span class="string">&#x27;Hola&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// IIFE 中的 greeting = &#x27;Hello&#x27;</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">global</span>, name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> greeting = <span class="string">&#x27;Hello&#x27;</span>;</span><br><span class="line">  <span class="built_in">global</span>.greeting = <span class="string">&#x27;Hello&#x27;</span>; <span class="comment">// 藉由將全域的參考傳入 IIFE 中來更改全域變數 greeting</span></span><br><span class="line">  <span class="built_in">console</span>.log(greeting + name);</span><br><span class="line">&#125;)(<span class="built_in">window</span>, <span class="string">&#x27;Iris&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(greeting); <span class="comment">// &#x27;Hello&#x27;</span></span><br></pre></td></tr></table></figure>
+<img src="https://miro.medium.com/max/1400/1*iQv20Qtr29iUXNaDabh1JQ.png" width="70%">
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86/" rel="tag"># 克服JS奇怪的部分</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20arguments%20%E8%88%87%20spread/" rel="prev" title="克服JS奇怪的部分 - arguments 與 spread">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - arguments 與 spread
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/" rel="next" title="克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包">
+      克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%8B%E5%8D%B3%E5%87%BD%E5%BC%8F-IIFEs-Immediately-Invoked-Function-Expression"><span class="nav-number">1.</span> <span class="nav-text">立即函式 IIFEs (Immediately Invoked Function Expression)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IIFEs-%E8%88%87%E8%A1%A8%E9%81%94%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">IIFEs 與表達式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IIFEs-%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">3.</span> <span class="nav-text">IIFEs 與安全程式碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Iris Huang</p>
+  <div class="site-description" itemprop="description">記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iris Huang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-lyaui-github-io.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/";
+    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼/";
+    this.page.title = "克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://https-lyaui-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

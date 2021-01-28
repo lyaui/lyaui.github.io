@@ -285,6 +285,151 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  瞭解閉包/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>先帶例子：<br>function greet(whattosay){<br>return function (name){<br>console.log(whattosay+’’+name)}<br>}<br>greet(‘Hi’) //回傳一函式 ƒ (name){console.log(whattosay+’’+name)}<br>greet(‘Hi’)(‘Tony’) //Hi Tony</p>
+<hr>
+<p>function greet(whattosay){<br>return function (name){<br>console.log(whattosay+’’+name)}<br>}<br>let sayHi = greet(‘Hi’) //ƒ (name){console.log(whattosay+’’+name)}<br>sayHi(‘Tony’); //Hi Tony<br>whattosay 變數被創造，當 greet 函數被呼叫，然後這個函數就結束了<br>為什麼 sayHi 仍然知道 whattosay 是什麼？？因為閉包現象。<br>Image for post<br>當 greet 執行完 return 後離開執行堆疊<br>Image for post<br>執行堆疊結束但記憶體空間還在<br>Image for post<br>即使 greet 已離開執行堆，裡面的函數仍然可以參考到 greet 函數在記憶體位置中的 whattosay 變數<br>當執行堆疊被清除後，一般情況下 JavaScript 引擎會清除記憶體空間，稱為垃圾回收（garbage collection）。<br>而當函數已經不在執行堆了，裡頭的函數執行環境可以包住那些他應該要參考的外部變數，這樣即使執行完畢的函數執行環境已經沒了，裡頭的函數仍然能夠取用到變數，這個包住所有可以取用的變數的現象稱為閉包。<br>閉包只是個 JavaScript 的特色，它不在乎外部函數運行完畢了沒，也與何時呼叫函數無關，我們不需擔心它的外部環境是否還在執行，JavaScript 引擎永遠會確保執行函數時，它都能取用到應該要取用到的變數範圍沒有改變。<br>一些零零總總的：覺得不錯的文章 1、覺得不錯的文章 2<br>Image for post<br>Jonas JS 課程的閉包定義</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="立即函式-IIFEs-Immediately-Invoked-Function-Expression"><a href="#立即函式-IIFEs-Immediately-Invoked-Function-Expression" class="headerlink" title="立即函式 IIFEs (Immediately Invoked Function Expression)"></a>立即函式 IIFEs (Immediately Invoked Function Expression)</h2><blockquote>
+<p>定義完馬上就執行的函式。</p>
+</blockquote>
+<ul>
+<li>是使用 Grouping Operator () 包起來的匿名函式。這樣的寫法可以避免裡面的變數污染到 global scope。</li>
+<li>馬上執行 function 的 expression ()，JavaScript 引擎看到它就會立刻轉譯該 function。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20arguments%20%E8%88%87%20spread/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -332,36 +477,15 @@
           <h2 id="參數-Arguments"><a href="#參數-Arguments" class="headerlink" title="參數 (Arguments)"></a>參數 (Arguments)</h2><blockquote>
 <p>The parameters you pass to a function</p>
 </blockquote>
-<p>JavasScript gives you a keyword of the same name which contains them all<br>傳入函數的變數的另一個稱呼而已，可以稱呼它為 parameters，也可以稱它為 arguments。</p>
-<p>arguments 包含了所有傳入函數的參數。</p>
-<img src="https://miro.medium.com/max/1400/1*fHvQeF--BOBwDOSFV4vKdA.png" width="60%">
-
-<p>參數也會提升 (Hoisting)，當函數被執行時，它會預先設定好記憶體空間給參數，並設定它們為 undefined</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">firstname, lastname, language</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(firstname); <span class="comment">// undefined</span></span><br><span class="line">  <span class="built_in">console</span>.log(lastname); <span class="comment">// undefined</span></span><br><span class="line">  <span class="built_in">console</span>.log(language); <span class="comment">// undefined &#125;</span></span><br><span class="line">  greet();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>傳入參數會由左至右處理</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">firstname, lastname, language</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(firstname); <span class="comment">// &#x27;Iris&#x27;</span></span><br><span class="line">  <span class="built_in">console</span>.log(lastname); <span class="comment">// undefined</span></span><br><span class="line">  <span class="built_in">console</span>.log(language); <span class="comment">// undefined</span></span><br><span class="line">  greet(<span class="string">&#x27;Iris&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>當沒有參數傳入時使用預設參數</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">firstname, lastname, language</span>) </span>&#123;</span><br><span class="line">  language = language || <span class="string">&#x27;en&#x27;</span>; <span class="comment">// undefined 轉型成 false 也就是 0</span></span><br><span class="line">  <span class="built_in">console</span>.log(firstname);</span><br><span class="line">  <span class="built_in">console</span>.log(lastname);</span><br><span class="line">  <span class="built_in">console</span>.log(language);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ES6 中的預設參數</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">firstname, lastname, language = <span class="string">&#x27;en&#x27;</span></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(firstname);</span><br><span class="line">  <span class="built_in">console</span>.log(lastname);</span><br><span class="line">  <span class="built_in">console</span>.log(language);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="函數中的關鍵字-Arguments"><a href="#函數中的關鍵字-Arguments" class="headerlink" title="函數中的關鍵字 Arguments"></a>函數中的關鍵字 Arguments</h2><blockquote>
-<p>argument 物件是一個對應傳入函式之引數的類陣列（Array-like）物件。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">firstname, lastname, language</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">arguments</span>.lenth === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 判斷是否存在參數</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Missing parameters!&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>); <span class="comment">// [&#x27;Iris&#x27;, &#x27;Doe&#x27; ,&#x27;Taiwanese&#x27;]</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">arguments</span>[<span class="number">0</span>]); <span class="comment">// Iris&#x27;</span></span><br><span class="line">  <span class="built_in">console</span>.log(firstname);</span><br><span class="line">  <span class="built_in">console</span>.log(lastname);</span><br><span class="line">  <span class="built_in">console</span>.log(language);</span><br><span class="line">&#125;</span><br><span class="line">greet(<span class="string">&#x27;Iris&#x27;</span>, <span class="string">&#x27;Doe&#x27;</span>, <span class="string">&#x27;Taiwanese&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>＊將 array -like 物件轉換為 array 的方法：</p>
-<ul>
-<li><code>Array.prototype.slice.call(arguments)</code></li>
-<li><code>Array.from(arguments)</code></li>
-<li><code>[...arguments]</code></li>
-</ul>
-<h2 id="其餘參數"><a href="#其餘參數" class="headerlink" title="其餘參數"></a>其餘參數</h2><p>將許多參數轉為 <strong>陣列</strong>，適合用在不確定會傳入多少參數的情況：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun1</span>(<span class="params">...theArgs</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(theArgs); <span class="comment">// 一個參數陣列</span></span><br><span class="line">  <span class="built_in">console</span>.log(theArgs.length);</span><br><span class="line">&#125;</span><br><span class="line">fun1(); <span class="comment">// 0，沒有傳入參數</span></span><br><span class="line">fun1(<span class="number">5</span>); <span class="comment">// 1，傳入一個參數</span></span><br><span class="line">fun1(<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>); <span class="comment">// 3，傳入三個參數</span></span><br></pre></td></tr></table></figure>
-<p>＊ <code>...</code> 可以是「其餘參數」也可以是「展開運算子」，詳細的運用可以參考這篇文章：<a target="_blank" rel="noopener" href="https://pjchender.blogspot.com/2017/01/es6-spread-operatorrest-operator.html">[筆記] JavaScript ES6 中的展開運算子（spread operator）和其餘運算子（rest operator）</a></p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
-<li><a target="_blank" rel="noopener" href="https://pjchender.blogspot.com/2017/01/es6-spread-operatorrest-operator.html">[筆記] JavaScript ES6 中的展開運算子（spread operator）和其餘運算子（rest operator）</a></li>
-</ul>
-
+<p>JavasScript gives you a keyword of the same name which contains them all<br>傳入函數的變數的另一個稱呼而已，可以稱呼它為 parameters，也可以稱它為 arguments，而 arguments 包含了所有傳入函數的參數。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20arguments%20%E8%88%87%20spread/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -749,158 +873,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Iris Huang">
-      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑底白字">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 型別與運算子</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 型別與運算子/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="動態型別-Dynamic-Typing"><a href="#動態型別-Dynamic-Typing" class="headerlink" title="動態型別 (Dynamic Typing)"></a>動態型別 (Dynamic Typing)</h2><blockquote>
-<p>You don’t tell the engine what type of data a variable holds, it figures it out while your code is runnung</p>
-</blockquote>
-<p>Variable can hold different types of values because it’s all figured out during execution.<br>一變數可以在不同時候擁有不同型別，不用告訴 JavaScript 變數是何種型別的資料，它會在程式 <strong>執行時</strong> 自動知道。</p>
-<ul>
-<li>動態/靜態型別：是否設定變數的型別</li>
-<li>強/弱型別：型別是否會發生轉型</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9E%8B%E5%88%A5%E8%88%87%E9%81%8B%E7%AE%97%E5%AD%90/#more" rel="contents">
-                更多 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Iris Huang">
-      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑底白字">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 關於非同步回呼</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 關於非同步回呼/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="同步執行-synchronous-execution"><a href="#同步執行-synchronous-execution" class="headerlink" title="同步執行 (synchronous execution)"></a>同步執行 (synchronous execution)</h2><blockquote>
-<p>One at a time</p>
-</blockquote>
-<p>And in order…<br>按照「順序」，「一次執行一個，」在 JavaScript 中一次只會發生一件事</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/#more" rel="contents">
-                更多 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -969,7 +941,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
