@@ -285,6 +285,153 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20call%E3%80%81apply%20%E8%88%87%20bind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20call%E3%80%81apply%20%E8%88%87%20bind/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - call、apply 與 bind</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20call%E3%80%81apply%20%E8%88%87%20bind/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  call、apply 與 bind/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>call, apply, bind 是函數物件中設定 this 關鍵字的內建方法。<br>apply 和 call 呼叫函數，然後讓你設定 this 接著傳入其他參數。bind 則創造函數的拷貝，讓你設定 this 關鍵字，還可以讓你設定預設參數，不會變的預設參數。<br>Image for post<br>函式具有程式碼（可被呼叫）+名稱，並因為是物件，底下有 call, apply,bind 方法可被調用<br>bind() 方法會建立一個新函式。該函式被呼叫時，會將 this 關鍵字設為給定的參數，並在呼叫時，帶有提供之前，給定順序的參數。<br>var person = {<br>firstName: “john”,<br>lastName: “Doe”,<br>getFullName() {<br>var fullName = this.firstName + “ “ + this.lastName;<br>return fullName;}<br>};<br>//原本的 logName 綁定 person<br>var logName = function(lang1, lang2) {<br>console.log(“Logged:” + this.getFullName())}<br>.bind(person); // Logged:john Doe<br>//建立一拷貝 logName 並綁定 person 的 logPersonName 函式<br>var logPersonName = logName.bind(person); // Logged:john Doe<br>logPersonName();<br>logName()<br>call()使用給定的 this 參數以及分別給定的參數來呼叫某個函數<br>var person = {<br>firstName: “john”,<br>lastName: “Doe”,<br>getFullName() {<br>var fullName = this.firstName + “ “ + this.lastName;<br>return fullName;}<br>};<br>var logName = function(lang1, lang2) {<br>console.log(“Logged: ” + this.getFullName());<br>console.log(“Arguments: ” + lang1 + ‘ ‘ + lang2 );}<br>logName.call(person, ‘en’, ‘es’)<br>//Logged: john Doe<br>//Arguments: en es<br>不像 bind 會創造函數的拷貝，call 會真的執行函數，傳入 call 的第一個參數是 this 要指向的東西(person)，剩下的是想要傳給函數的參數(en, es)。<br>經常運用於柯里化。<br>apply()方法會呼叫一個以 this 的代表值和一個陣列形式的值組(或是一個 array-like object )為參數的函式。<br>var person = {<br>firstName: “john”,<br>lastName: “Doe”,<br>getFullName() {<br>var fullName = this.firstName + “ “ + this.lastName;<br>return fullName;}<br>};<br>var logName = function(lang1, lang2) {<br>console.log(“Logged: ” + this.getFullName());<br>console.log(“Arguments: ” + lang1 + ‘ ‘ + lang2 );}<br>logName.apply(person, [‘en’, ‘es’]) //第二個參數是陣列<br>//Logged: john Doe<br>//Arguments: en es<br>基本上用法和 call 差不多，只是第二個參數必是陣列形式。<br>使用立即函式的手法呼叫：<br>(function(lang1, lang2) {<br>console.log(“Logged: “ + this.getFullName());<br>console.log(“Arguments: “ + lang1 + “ “ + lang2);}<br>).apply(person, [“en”, “es”]);<br>使用時機：<br>函數借用 (function borrowing)<br>var person = {<br>firstName: “john”,<br>lastName: “Doe”,<br>getFullName() {<br>var fullName = this.firstName + “ “ + this.lastName;<br>return fullName;}<br>};<br>// person2 沒有 getFullName 的方法，但想要使用的話，可以和 person 借<br>var person2 = {<br>firstName: “Jane”,<br>lastName: “Doe”,<br>};<br>person.getFullName.call(person2) // Jane Doe 2. bind 的柯里化運用 (Function Curring)<br>Function Curring<br>Generating a copy of a function but with some preset parameters.<br>Very useful in mathematical situations.<br>柯里化：將一個接收複數參數的函式轉為一連串接收單一參數的函式。<br>bind 建立一個函數的拷貝，並設定預設的參數，在數學運算之下很有用。<br>function multiply(a, b) {<br>return a * b; }</p>
+<ul>
+<li>傳入的 this 忽略不用管，而 bind 的 this 後面傳的參數類似預設值<br>// 固定參數 a 為 2，可傳入任意 b<br>var multipleByTwo = multiply.bind(this,2);<br>multipleByTwo(4) //8<br>// 固定參數 a 為 2 ， b 為 2 ，後續傳入的參數則沒有用<br>var multipleByTwo=multiply.bind(this,2,2)//4<br>multipleByTwo(4) //因為前面已經傳了參數，這裡傳什麼都沒差<br>// 沒有傳入固定的參數，a,b 就不會受限制<br>var multipleByTwo=multiply.bind(this)<br>multipleByTwo(5,2) //10</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  閉包與回呼函數 (Callback Function)/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="閉包與回呼函數-Callback-Function"><a href="#閉包與回呼函數-Callback-Function" class="headerlink" title="閉包與回呼函數 (Callback Function)"></a>閉包與回呼函數 (Callback Function)</h2><blockquote>
+<p>A Function you give to another function, to be run when the other function is finished.</p>
+</blockquote>
+<p>So the function you call(i.e. invoke), “calls back” by calling the function you gave it when it finishes.<br>你呼叫一個函數並給它一個函數，當該函數結束時，那個函數回呼你給它的函數。<br>簡單來說 callback function 與一般函數最大差別就是呼叫 <strong>方式不同</strong>。</p>
+<h3 id="非同步運-setTimeout-函數："><a href="#非同步運-setTimeout-函數：" class="headerlink" title="非同步運 setTimeout 函數："></a>非同步運 setTimeout 函數：</h3><p>等原本函數離開執行堆疊後，到了設定秒數才從執行佇列被拉出來執行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHiLater</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> greeting = <span class="string">&#x27;Hi&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//會在執行佇列，等其他函式都執行完畢才執行</span></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">  &#125;, <span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line">sayHiLater(); <span class="comment">// &#x27;Hi&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>以上例而言，3000 毫秒過後引擎確認有沒有函數在等待，並發現執行佇列中的函式進行執行，但 greeting 不在函數裡，於是往外層尋找，此時 sayHiLater 已經結束了，但因為閉包的特性記憶體空間中的 greeting 能夠被取用，因此 console.log 的值為 ‘Hi’。</p>
+<h3 id="事件監聽函數："><a href="#事件監聽函數：" class="headerlink" title="事件監聽函數："></a>事件監聽函數：</h3><p>在設定的事件被觸發後才會執行裡面的函數。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&#x27;button&#x27;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="典型的-callback-function："><a href="#典型的-callback-function：" class="headerlink" title="典型的 callback function："></a>典型的 callback function：</h3><p>利用 <strong>一級函數</strong> 的特性，函數被當作參數傳入其他函數中，並在其他函數被觸發執行後才被呼叫。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">tellMeWhenDone</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1000</span>;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">2000</span>;</span><br><span class="line">  callback();</span><br><span class="line">&#125;</span><br><span class="line">tellMeWhenDone(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;I am done&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -299,7 +446,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包</a>
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 瞭解閉包</a>
         </h2>
 
         <div class="post-meta">
@@ -329,13 +476,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>先帶例子：<br>function greet(whattosay){<br>return function (name){<br>console.log(whattosay+’’+name)}<br>}<br>greet(‘Hi’) //回傳一函式 ƒ (name){console.log(whattosay+’’+name)}<br>greet(‘Hi’)(‘Tony’) //Hi Tony</p>
-<hr>
-<p>function greet(whattosay){<br>return function (name){<br>console.log(whattosay+’’+name)}<br>}<br>let sayHi = greet(‘Hi’) //ƒ (name){console.log(whattosay+’’+name)}<br>sayHi(‘Tony’); //Hi Tony<br>whattosay 變數被創造，當 greet 函數被呼叫，然後這個函數就結束了<br>為什麼 sayHi 仍然知道 whattosay 是什麼？？因為閉包現象。<br>Image for post<br>當 greet 執行完 return 後離開執行堆疊<br>Image for post<br>執行堆疊結束但記憶體空間還在<br>Image for post<br>即使 greet 已離開執行堆，裡面的函數仍然可以參考到 greet 函數在記憶體位置中的 whattosay 變數<br>當執行堆疊被清除後，一般情況下 JavaScript 引擎會清除記憶體空間，稱為垃圾回收（garbage collection）。<br>而當函數已經不在執行堆了，裡頭的函數執行環境可以包住那些他應該要參考的外部變數，這樣即使執行完畢的函數執行環境已經沒了，裡頭的函數仍然能夠取用到變數，這個包住所有可以取用的變數的現象稱為閉包。<br>閉包只是個 JavaScript 的特色，它不在乎外部函數運行完畢了沒，也與何時呼叫函數無關，我們不需擔心它的外部環境是否還在執行，JavaScript 引擎永遠會確保執行函數時，它都能取用到應該要取用到的變數範圍沒有改變。<br>一些零零總總的：覺得不錯的文章 1、覺得不錯的文章 2<br>Image for post<br>Jonas JS 課程的閉包定義</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
-</ul>
-
+          <h2 id="什麼是閉包"><a href="#什麼是閉包" class="headerlink" title="什麼是閉包"></a>什麼是閉包</h2><blockquote>
+<p>當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -724,159 +875,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E4%B8%80%E7%B4%9A%E5%87%BD%E6%95%B8%E3%80%81%E5%87%BD%E6%95%B8%E5%B0%B1%E6%98%AF%E7%89%A9%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Iris Huang">
-      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑底白字">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E4%B8%80%E7%B4%9A%E5%87%BD%E6%95%B8%E3%80%81%E5%87%BD%E6%95%B8%E5%B0%B1%E6%98%AF%E7%89%A9%E4%BB%B6/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 一級函數、函數就是物件</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E4%B8%80%E7%B4%9A%E5%87%BD%E6%95%B8%E3%80%81%E5%87%BD%E6%95%B8%E5%B0%B1%E6%98%AF%E7%89%A9%E4%BB%B6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 一級函數、函數就是物件/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一級函數-First-Class-Functions"><a href="#一級函數-First-Class-Functions" class="headerlink" title="一級函數(First Class Functions)"></a>一級函數(First Class Functions)</h2><blockquote>
-<p>Everything you can do with other types you can do with functions.</p>
-</blockquote>
-<p>Assign them to variables, pass them around, create them on the fly.<br>可以對別的型別做的事，都可以對函數做。<br>可以指派一個變數的值為函數、可以將函數當做參數傳入另一個函數……</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E4%B8%80%E7%B4%9A%E5%87%BD%E6%95%B8%E3%80%81%E5%87%BD%E6%95%B8%E5%B0%B1%E6%98%AF%E7%89%A9%E4%BB%B6/#more" rel="contents">
-                更多 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Iris Huang">
-      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑底白字">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 物件的建立與賦值、物件實體</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 物件的建立與賦值、物件實體/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="物件的建立與賦值"><a href="#物件的建立與賦值" class="headerlink" title="物件的建立與賦值"></a>物件的建立與賦值</h2><p>物件是一群「名稱/值」的組合，而這些值也可以是另一個「名稱/值」的組合。而物件的值可以是：</p>
-<ul>
-<li>純值（屬性）</li>
-<li>其他的物件（屬性）</li>
-<li>函式（方法）
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%89%A9%E4%BB%B6%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%88%87%E8%B3%A6%E5%80%BC%E3%80%81%E7%89%A9%E4%BB%B6%E5%AF%A6%E9%AB%94/#more" rel="contents">
-                更多 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -941,7 +943,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

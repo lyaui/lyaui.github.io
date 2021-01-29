@@ -20,19 +20,27 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="先帶例子：function greet(whattosay){return function (name){console.log(whattosay+’’+name)}}greet(‘Hi’) &#x2F;&#x2F;回傳一函式 ƒ (name){console.log(whattosay+’’+name)}greet(‘Hi’)(‘Tony’) &#x2F;&#x2F;Hi Tony  function greet(whattosa">
+  <meta name="description" content="什麼是閉包 當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包">
+<meta property="og:title" content="克服JS奇怪的部分 - 瞭解閉包">
 <meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/index.html">
 <meta property="og:site_name" content="黑底白字">
-<meta property="og:description" content="先帶例子：function greet(whattosay){return function (name){console.log(whattosay+’’+name)}}greet(‘Hi’) &#x2F;&#x2F;回傳一函式 ƒ (name){console.log(whattosay+’’+name)}greet(‘Hi’)(‘Tony’) &#x2F;&#x2F;Hi Tony  function greet(whattosa">
+<meta property="og:description" content="什麼是閉包 當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*LVsA9rZbOBY1gpqZ_sZoXw.png">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*FnctjFef4WC293UdvOaLnQ.png">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*Uie5s9pzwGmpU3r-LWWWPA.png">
+<meta property="og:image" content="https://i.imgur.com/AJIvEuc.png">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*G3lLQu80ScqbNblCiLRk7Q.png">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*kiHR2pBi1utDuSIrtz08jw.png">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*LB-mBXgOQjqP4bfKvjbUhA.png">
 <meta property="article:published_time" content="2021-01-11T10:33:48.000Z">
-<meta property="article:modified_time" content="2021-01-28T08:31:18.104Z">
+<meta property="article:modified_time" content="2021-01-29T08:06:14.889Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="克服JS奇怪的部分">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miro.medium.com/max/1400/1*LVsA9rZbOBY1gpqZ_sZoXw.png">
 
 <link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/">
 
@@ -47,7 +55,7 @@
   };
 </script>
 
-  <title>克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包 | 黑底白字</title>
+  <title>克服JS奇怪的部分 - 瞭解閉包 | 黑底白字</title>
   
 
 
@@ -160,7 +168,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包
+          克服JS奇怪的部分 - 瞭解閉包
         </h1>
 
         <div class="post-meta">
@@ -190,11 +198,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>先帶例子：<br>function greet(whattosay){<br>return function (name){<br>console.log(whattosay+’’+name)}<br>}<br>greet(‘Hi’) //回傳一函式 ƒ (name){console.log(whattosay+’’+name)}<br>greet(‘Hi’)(‘Tony’) //Hi Tony</p>
-<hr>
-<p>function greet(whattosay){<br>return function (name){<br>console.log(whattosay+’’+name)}<br>}<br>let sayHi = greet(‘Hi’) //ƒ (name){console.log(whattosay+’’+name)}<br>sayHi(‘Tony’); //Hi Tony<br>whattosay 變數被創造，當 greet 函數被呼叫，然後這個函數就結束了<br>為什麼 sayHi 仍然知道 whattosay 是什麼？？因為閉包現象。<br>Image for post<br>當 greet 執行完 return 後離開執行堆疊<br>Image for post<br>執行堆疊結束但記憶體空間還在<br>Image for post<br>即使 greet 已離開執行堆，裡面的函數仍然可以參考到 greet 函數在記憶體位置中的 whattosay 變數<br>當執行堆疊被清除後，一般情況下 JavaScript 引擎會清除記憶體空間，稱為垃圾回收（garbage collection）。<br>而當函數已經不在執行堆了，裡頭的函數執行環境可以包住那些他應該要參考的外部變數，這樣即使執行完畢的函數執行環境已經沒了，裡頭的函數仍然能夠取用到變數，這個包住所有可以取用的變數的現象稱為閉包。<br>閉包只是個 JavaScript 的特色，它不在乎外部函數運行完畢了沒，也與何時呼叫函數無關，我們不需擔心它的外部環境是否還在執行，JavaScript 引擎永遠會確保執行函數時，它都能取用到應該要取用到的變數範圍沒有改變。<br>一些零零總總的：覺得不錯的文章 1、覺得不錯的文章 2<br>Image for post<br>Jonas JS 課程的閉包定義</p>
+        <h2 id="什麼是閉包"><a href="#什麼是閉包" class="headerlink" title="什麼是閉包"></a>什麼是閉包</h2><blockquote>
+<p>當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。</p>
+</blockquote>
+<a id="more"></a>
+
+<p>以下例而言，whatToSay 變數被創造，當 greet 函數被呼叫然後執行結束後， sayHi 仍然知道 whatToSay 是什麼就是因為閉包現象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">whatToSay</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(whatToSay + <span class="string">&#x27; &#x27;</span> + name);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> sayHi = greet(<span class="string">&#x27;Hi&#x27;</span>); <span class="comment">// ƒ (name)&#123; console.log(whatToSay+&#x27;&#x27;+name); &#125;</span></span><br><span class="line">sayHi(<span class="string">&#x27;Iris&#x27;</span>); <span class="comment">// &#x27;Hi Iris&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>當 greet 執行完 return 後準備離開執行堆疊…<br><img src="https://miro.medium.com/max/1400/1*LVsA9rZbOBY1gpqZ_sZoXw.png" width="80%"><br>儘管執行堆疊結束執行環境被移除，但記憶體空間還在。<br><img src="https://miro.medium.com/max/1400/1*FnctjFef4WC293UdvOaLnQ.png" width="80%"><br>即使 greet 已離開執行堆，裡面的函數仍然可以參考到 greet 函數在記憶體位置中的 whatToSay 變數。<br><img src="https://miro.medium.com/max/1400/1*Uie5s9pzwGmpU3r-LWWWPA.png" width="80%"></p>
+<p>當執行堆疊被清除後，一般情況下 JavaScript 引擎會清除記憶體空間，稱為垃圾回收 (garbage collection)。而當函數已經不在執行堆了，裡頭的函數執行環境可以包住那些他應該要參考的外部變數，這樣即使執行完畢的函數執行環境已經沒了，裡頭的函數仍然能夠取用到變數，這個包住所有可以取用的變數的現象稱為閉包。</p>
+<p>閉包只是個 JavaScript 的特色，它不在乎外部函數運行完畢了沒，也與何時呼叫函數無關，我們不需擔心它的外部環境是否還在執行，JavaScript 引擎永遠會確保執行函數時，它都能取用到應該要取用到的變數範圍沒有改變。</p>
+<h2 id="觀念運用：函數工廠-Function-Factory"><a href="#觀念運用：函數工廠-Function-Factory" class="headerlink" title="觀念運用：函數工廠 (Function Factory)"></a>觀念運用：函數工廠 (Function Factory)</h2><p>創造完全獨立變數互不干擾的環境。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeGreeting</span>(<span class="params">language</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">firstName, lastName</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (language === <span class="string">&#x27;en&#x27;</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;Hello&#x27;</span> + firstName + <span class="string">&#x27; &#x27;</span> + lastName);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (language === <span class="string">&#x27;es&#x27;</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;Hola&#x27;</span> + firstName + <span class="string">&#x27; &#x27;</span> + lastName);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> greetEnglish = makeGreeting(<span class="string">&#x27;en&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> greetSpanish = makeGreeting(<span class="string">&#x27;es&#x27;</span>);</span><br><span class="line"></span><br><span class="line">greetEnglish(<span class="string">&#x27;Iris&#x27;</span>, <span class="string">&#x27;Huang&#x27;</span>);</span><br><span class="line">greetSpanish(<span class="string">&#x27;Iris&#x27;</span>, <span class="string">&#x27;Huang&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<img src="https://i.imgur.com/AJIvEuc.png" width="80%">
+
+<h2 id="觀念運用：經典題目分析"><a href="#觀念運用：經典題目分析" class="headerlink" title="觀念運用：經典題目分析"></a>觀念運用：經典題目分析</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildFunctions</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> arr = [];</span><br><span class="line">  <span class="comment">// i = 3 時停止推 f 進陣列並 return arr</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(i);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr; <span class="comment">// 返還陣列，此時 i=3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> fs = buildFunctions();</span><br><span class="line">fs[<span class="number">0</span>](); <span class="comment">// 3</span></span><br><span class="line">fs[<span class="number">1</span>](); <span class="comment">// 3</span></span><br><span class="line">fs[<span class="number">2</span>](); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>執行 buildFunction，i = 3 時 arr 已被推入了 f0, f1, f2 三個函數。<br>記住！他們 <strong>參考的是同一個 i</strong>，而不是擁有一個自己個別的 i。</p>
+<img src="https://miro.medium.com/max/1400/1*G3lLQu80ScqbNblCiLRk7Q.png" width="80%">
+
+<p>buildFunction 從執行堆疊被移除後，記憶體的 i （此時 i 因為跑到 3 而不符合條件而結束迴圈）和 arr 都還存在，呼叫 fs 時裡面沒有 i 可被取用，因此向外曾尋找，此時記憶體裡被保留的 i = 3 將會被取用，因為大家都是參考同一個 i ，因此結果都會是 3。</p>
+<img src="https://miro.medium.com/max/1400/1*kiHR2pBi1utDuSIrtz08jw.png" width="80%">
+也就是說：
+
+<p>i = 0 推了一個 f1 進陣列，arr = [f0];（沒執行 f0 函數！）</p>
+<p>i = 1 再推一個 f2 進陣列，arr = [f0, f1];（沒執行 f1 函數！）</p>
+<p>i = 2 再推一個 f3 進陣列，arr = [f0, f1, f2];（沒執行 f2 函數！）</p>
+<p>i = 3 此時 i 超過了迴圈的範圍條件，因此停止推陣列的動作。</p>
+<p>會讓人誤以為 console.log 為 1, 2, 3 是因為以為推完一個陣列就會執行裡面的 f，然而實際上是 i 跑完了並返還了陣列和裡面的 f，呼叫後才開始執行。</p>
+<p>而執行陣列中的 f 時裡面沒有 i，要向外層尋找，此時雖然 buildFunction 已經從執行堆疊被移除，但記憶體中保存的 i = 3 還存在，因為指向的記憶體相同，因此無論哪個函式執行 i 的結果都會是 3。</p>
+<p>解決方式：</p>
+<ol>
+<li><p>使用 let</p>
+</li>
+<li><p>使用 IIFEs</p>
+</li>
+</ol>
+<p>若要 console.log 列印出 1, 2, 3，就需要改變執行環境。若將 push 的函式加上 IIFE，執行迴圈時就會當下執行 IIFE 並傳入當下的 i，並在 IIFE 的記憶體空間內保存為 j ，而裡頭的匿名函式在被呼叫時，就可以使用被保存的 j 值。<br>（詳細可以看下圖與註記）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildFunctions</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> arr = [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">    arr.push(</span><br><span class="line">      (<span class="function"><span class="keyword">function</span> (<span class="params">j</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="built_in">console</span>.log(j);</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;)(i), <span class="comment">// 執行當下傳入的 i 值會被保留為 j，裡面的匿名函式可以取用</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> fs = buildFunctions();</span><br><span class="line">fs[<span class="number">0</span>](); <span class="comment">//0</span></span><br><span class="line">fs[<span class="number">1</span>](); <span class="comment">//1</span></span><br><span class="line">fs[<span class="number">2</span>](); <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+<p>console.log (arr), console.log (fs[0]), console.log (fs[1]), console.log (fs[2])，而仔細看 f0 的 scopes 中有 Closure，並且保存著 j:0<br><img src="https://miro.medium.com/max/1400/1*LB-mBXgOQjqP4bfKvjbUhA.png"></p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+<li><a target="_blank" rel="noopener" href="https://wcc723.github.io/javascript/2017/12/13/javascript-closure/">鐵人賽：另一種方式介紹 JavaScript 閉包</a></li>
 </ul>
 
     </div>
@@ -219,8 +263,8 @@
       <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20-%20%E5%AE%89%E8%A3%9D%E8%A8%AD%E5%AE%9A%20Tailwind,%20PostCSS,%20PurgeCSS/" rel="next" title="Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS">
-      Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/" rel="next" title="克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)">
+      克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -287,7 +331,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E9%96%89%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">什麼是閉包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%80%E5%BF%B5%E9%81%8B%E7%94%A8%EF%BC%9A%E5%87%BD%E6%95%B8%E5%B7%A5%E5%BB%A0-Function-Factory"><span class="nav-number">2.</span> <span class="nav-text">觀念運用：函數工廠 (Function Factory)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%80%E5%BF%B5%E9%81%8B%E7%94%A8%EF%BC%9A%E7%B6%93%E5%85%B8%E9%A1%8C%E7%9B%AE%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">觀念運用：經典題目分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -300,7 +344,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -410,7 +454,7 @@
   var disqus_config = function() {
     this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/";
     this.page.identifier = "2021/01/11/克服JS奇怪的部分 -  瞭解閉包/";
-    this.page.title = "克服JS奇怪的部分 - 克服JS奇怪的部分 -  瞭解閉包";
+    this.page.title = "克服JS奇怪的部分 - 瞭解閉包";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {

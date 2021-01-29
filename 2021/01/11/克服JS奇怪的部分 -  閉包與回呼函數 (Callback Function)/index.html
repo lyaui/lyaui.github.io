@@ -20,23 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="提升（Hoisting）逐行執行程式碼之前，JavaScript 已經為變數和函數在記憶體中建立一個空間了當語法解析器開始設定轉化程式碼時，它會知道你在哪裡創造變數和函數，並在 創造階段 設定變數和函數在記憶體裡，這個步驟就叫做「提升」（hoisting）。">
+  <meta name="description" content="閉包與回呼函數 (Callback Function) A Function you give to another function, to be run when the other function is finished.  So the function you call(i.e. invoke), “calls back” by calling the function you gav">
 <meta property="og:type" content="article">
-<meta property="og:title" content="克服JS奇怪的部分 - 創造與提升">
-<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/index.html">
+<meta property="og:title" content="克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)">
+<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/index.html">
 <meta property="og:site_name" content="黑底白字">
-<meta property="og:description" content="提升（Hoisting）逐行執行程式碼之前，JavaScript 已經為變數和函數在記憶體中建立一個空間了當語法解析器開始設定轉化程式碼時，它會知道你在哪裡創造變數和函數，並在 創造階段 設定變數和函數在記憶體裡，這個步驟就叫做「提升」（hoisting）。">
+<meta property="og:description" content="閉包與回呼函數 (Callback Function) A Function you give to another function, to be run when the other function is finished.  So the function you call(i.e. invoke), “calls back” by calling the function you gav">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://miro.medium.com/max/1400/1*3xsWM1Y3Au4sqn2hZbseQg.png">
-<meta property="article:published_time" content="2021-01-11T10:33:35.000Z">
-<meta property="article:modified_time" content="2021-01-21T10:17:26.469Z">
+<meta property="article:published_time" content="2021-01-11T10:33:48.000Z">
+<meta property="article:modified_time" content="2021-01-29T08:05:53.425Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="克服JS奇怪的部分">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://miro.medium.com/max/1400/1*3xsWM1Y3Au4sqn2hZbseQg.png">
 
-<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/">
+<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/">
 
 
 <script id="page-configurations">
@@ -49,7 +47,7 @@
   };
 </script>
 
-  <title>克服JS奇怪的部分 - 創造與提升 | 黑底白字</title>
+  <title>克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function) | 黑底白字</title>
   
 
 
@@ -149,7 +147,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -162,7 +160,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          克服JS奇怪的部分 - 創造與提升
+          克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)
         </h1>
 
         <div class="post-meta">
@@ -176,8 +174,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 創造與提升/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  閉包與回呼函數 (Callback Function)/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -192,17 +190,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="提升（Hoisting）"><a href="#提升（Hoisting）" class="headerlink" title="提升（Hoisting）"></a>提升（Hoisting）</h2><p>逐行執行程式碼之前，JavaScript 已經為變數和函數在記憶體中建立一個空間了<br>當語法解析器開始設定轉化程式碼時，它會知道你在哪裡創造變數和函數，並在 <strong>創造階段</strong> 設定變數和函數在記憶體裡，這個步驟就叫做「提升」（hoisting）。</p>
-<a id="more"></a>
-
-<img src="https://miro.medium.com/max/1400/1*3xsWM1Y3Au4sqn2hZbseQg.png" width="60%">
-
-<h2 id="函數的提升"><a href="#函數的提升" class="headerlink" title="函數的提升"></a>函數的提升</h2><p>變數和函數已經存在於記憶體中，所以當程式被逐行執行時可以找到它們，函數已經全部在記憶體了，代表函數裡面的程式碼已經被執行了。（比變數優先提升）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">b(); <span class="comment">// &#x27;Called b!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Called b!&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="變數的提升"><a href="#變數的提升" class="headerlink" title="變數的提升"></a>變數的提升</h2><p>JavaScript 為 a 空出記憶體空間時，它不知道 a 會是什麼值，直到它被執行才知道。因此先放上 undefined 的替代文字，表示「我還不知道他的值」，如果我們都不設值的話也會得到一樣的替代文字 undefined。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;Hello World!&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>所有 JavaScript 的變數一開始都會被設定為 undefined（預設值），然後函數則是完全被設定好放進記憶體中。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">whosName();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whosName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (myName) &#123;</span><br><span class="line">    myName = <span class="string">&#x27;杰倫&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myName = <span class="string">&#x27;小明&#x27;</span>;</span><br><span class="line"><span class="built_in">console</span>.log(myName); <span class="comment">//小明</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 創造階段</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whosName</span>(<span class="params"></span>) </span>&#123;&#125; <span class="comment">// 優先提升函式</span></span><br><span class="line"><span class="keyword">var</span> myName; <span class="comment">// 宣告變數，提升預留為 undefined -執行階段</span></span><br><span class="line">whosName(); <span class="comment">// 呼叫函數</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whosName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (myName) &#123;</span><br><span class="line">    myName = <span class="string">&#x27;杰倫&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="comment">// 此時 undefined 為 false，條件不成立，不賦值</span></span><br><span class="line">myName = <span class="string">&#x27;小明&#x27;</span>; <span class="comment">// 賦值 myName = &#x27;小明&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(myName); <span class="comment">// myName = &#x27;小明&#x27;</span></span><br></pre></td></tr></table></figure>
+        <h2 id="閉包與回呼函數-Callback-Function"><a href="#閉包與回呼函數-Callback-Function" class="headerlink" title="閉包與回呼函數 (Callback Function)"></a>閉包與回呼函數 (Callback Function)</h2><blockquote>
+<p>A Function you give to another function, to be run when the other function is finished.</p>
+</blockquote>
+<p>So the function you call(i.e. invoke), “calls back” by calling the function you gave it when it finishes.<br>你呼叫一個函數並給它一個函數，當該函數結束時，那個函數回呼你給它的函數。<br>簡單來說 callback function 與一般函數最大差別就是呼叫 <strong>方式不同</strong>。</p>
+<h3 id="非同步運-setTimeout-函數："><a href="#非同步運-setTimeout-函數：" class="headerlink" title="非同步運 setTimeout 函數："></a>非同步運 setTimeout 函數：</h3><p>等原本函數離開執行堆疊後，到了設定秒數才從執行佇列被拉出來執行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHiLater</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> greeting = <span class="string">&#x27;Hi&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//會在執行佇列，等其他函式都執行完畢才執行</span></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">  &#125;, <span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line">sayHiLater(); <span class="comment">// &#x27;Hi&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>以上例而言，3000 毫秒過後引擎確認有沒有函數在等待，並發現執行佇列中的函式進行執行，但 greeting 不在函數裡，於是往外層尋找，此時 sayHiLater 已經結束了，但因為閉包的特性記憶體空間中的 greeting 能夠被取用，因此 console.log 的值為 ‘Hi’。</p>
+<h3 id="事件監聽函數："><a href="#事件監聽函數：" class="headerlink" title="事件監聽函數："></a>事件監聽函數：</h3><p>在設定的事件被觸發後才會執行裡面的函數。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&#x27;button&#x27;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="典型的-callback-function："><a href="#典型的-callback-function：" class="headerlink" title="典型的 callback function："></a>典型的 callback function：</h3><p>利用 <strong>一級函數</strong> 的特性，函數被當作參數傳入其他函數中，並在其他函數被觸發執行後才被呼叫。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">tellMeWhenDone</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1000</span>;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">2000</span>;</span><br><span class="line">  callback();</span><br><span class="line">&#125;</span><br><span class="line">tellMeWhenDone(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;I am done&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
 </ul>
@@ -225,12 +223,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%85%A8%E5%9F%9F%E7%92%B0%E5%A2%83%E8%88%87%E5%85%A8%E5%9F%9F%E7%89%A9%E4%BB%B6/" rel="prev" title="克服JS奇怪的部分 - 全域環境與全域物件">
-      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 全域環境與全域物件
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/" rel="prev" title="克服JS奇怪的部分 - 瞭解閉包">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 瞭解閉包
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E3%80%81JS%20%E8%88%87%20undefined/" rel="next" title="克服JS奇怪的部分 - 程式執行、JS 與 undefined">
-      克服JS奇怪的部分 - 程式執行、JS 與 undefined <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20call%E3%80%81apply%20%E8%88%87%20bind/" rel="next" title="克服JS奇怪的部分 - call、apply 與 bind">
+      克服JS奇怪的部分 - call、apply 與 bind <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -297,7 +295,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8D%87%EF%BC%88Hoisting%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">提升（Hoisting）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B8%E7%9A%84%E6%8F%90%E5%8D%87"><span class="nav-number">2.</span> <span class="nav-text">函數的提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%8A%E6%95%B8%E7%9A%84%E6%8F%90%E5%8D%87"><span class="nav-number">3.</span> <span class="nav-text">變數的提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">4.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8-Callback-Function"><span class="nav-number">1.</span> <span class="nav-text">閉包與回呼函數 (Callback Function)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%90%8C%E6%AD%A5%E9%81%8B-setTimeout-%E5%87%BD%E6%95%B8%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">非同步運 setTimeout 函數：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%9B%A3%E8%81%BD%E5%87%BD%E6%95%B8%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">事件監聽函數：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E7%9A%84-callback-function%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">典型的 callback function：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -418,9 +416,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%89%B5%E9%80%A0%E8%88%87%E6%8F%90%E5%8D%87/";
-    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 創造與提升/";
-    this.page.title = "克服JS奇怪的部分 - 創造與提升";
+    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/";
+    this.page.identifier = "2021/01/11/克服JS奇怪的部分 -  閉包與回呼函數 (Callback Function)/";
+    this.page.title = "克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
