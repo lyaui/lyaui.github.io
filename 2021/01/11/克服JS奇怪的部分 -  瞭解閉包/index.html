@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="什麼是閉包 當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。">
+  <meta name="description" content="什麼是閉包 當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。  以下例而言，whatToSay 變數被創造，當 greet 函數被呼叫然後執行結束後， sayHi 仍然知道 whatToSay 是什麼就是因為閉包現象。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="克服JS奇怪的部分 - 瞭解閉包">
 <meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%9E%AD%E8%A7%A3%E9%96%89%E5%8C%85/index.html">
 <meta property="og:site_name" content="黑底白字">
-<meta property="og:description" content="什麼是閉包 當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。">
+<meta property="og:description" content="什麼是閉包 當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。  以下例而言，whatToSay 變數被創造，當 greet 函數被呼叫然後執行結束後， sayHi 仍然知道 whatToSay 是什麼就是因為閉包現象。">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://miro.medium.com/max/1400/1*LVsA9rZbOBY1gpqZ_sZoXw.png">
 <meta property="og:image" content="https://miro.medium.com/max/1400/1*FnctjFef4WC293UdvOaLnQ.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://miro.medium.com/max/1400/1*kiHR2pBi1utDuSIrtz08jw.png">
 <meta property="og:image" content="https://miro.medium.com/max/1400/1*LB-mBXgOQjqP4bfKvjbUhA.png">
 <meta property="article:published_time" content="2021-01-11T10:33:48.000Z">
-<meta property="article:modified_time" content="2021-01-29T08:06:14.889Z">
+<meta property="article:modified_time" content="2021-01-29T08:08:46.416Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="克服JS奇怪的部分">
@@ -201,9 +201,9 @@
         <h2 id="什麼是閉包"><a href="#什麼是閉包" class="headerlink" title="什麼是閉包"></a>什麼是閉包</h2><blockquote>
 <p>當函數執行完畢被移除堆疊銷毀後，已執行完畢的函數的變數依然能夠被重複取用的現象。</p>
 </blockquote>
+<p>以下例而言，whatToSay 變數被創造，當 greet 函數被呼叫然後執行結束後， sayHi 仍然知道 whatToSay 是什麼就是因為閉包現象。</p>
 <a id="more"></a>
 
-<p>以下例而言，whatToSay 變數被創造，當 greet 函數被呼叫然後執行結束後， sayHi 仍然知道 whatToSay 是什麼就是因為閉包現象。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">whatToSay</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(whatToSay + <span class="string">&#x27; &#x27;</span> + name);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> sayHi = greet(<span class="string">&#x27;Hi&#x27;</span>); <span class="comment">// ƒ (name)&#123; console.log(whatToSay+&#x27;&#x27;+name); &#125;</span></span><br><span class="line">sayHi(<span class="string">&#x27;Iris&#x27;</span>); <span class="comment">// &#x27;Hi Iris&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>當 greet 執行完 return 後準備離開執行堆疊…<br><img src="https://miro.medium.com/max/1400/1*LVsA9rZbOBY1gpqZ_sZoXw.png" width="80%"><br>儘管執行堆疊結束執行環境被移除，但記憶體空間還在。<br><img src="https://miro.medium.com/max/1400/1*FnctjFef4WC293UdvOaLnQ.png" width="80%"><br>即使 greet 已離開執行堆，裡面的函數仍然可以參考到 greet 函數在記憶體位置中的 whatToSay 變數。<br><img src="https://miro.medium.com/max/1400/1*Uie5s9pzwGmpU3r-LWWWPA.png" width="80%"></p>
 <p>當執行堆疊被清除後，一般情況下 JavaScript 引擎會清除記憶體空間，稱為垃圾回收 (garbage collection)。而當函數已經不在執行堆了，裡頭的函數執行環境可以包住那些他應該要參考的外部變數，這樣即使執行完畢的函數執行環境已經沒了，裡頭的函數仍然能夠取用到變數，這個包住所有可以取用的變數的現象稱為閉包。</p>
@@ -259,12 +259,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/" rel="prev" title="克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼">
-      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/" rel="prev" title="克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E9%96%89%E5%8C%85%E8%88%87%E5%9B%9E%E5%91%BC%E5%87%BD%E6%95%B8%20(Callback%20Function)/" rel="next" title="克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function)">
-      克服JS奇怪的部分 - 閉包與回呼函數 (Callback Function) <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20call%E3%80%81apply%20%E8%88%87%20bind/" rel="next" title="克服JS奇怪的部分 - call、apply 與 bind">
+      克服JS奇怪的部分 - call、apply 與 bind <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
