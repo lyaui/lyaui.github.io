@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Object.create 與純粹的原型繼承Object.create 會用它的原型建立空物件，它的原型就是傳入 Object.create 的東西，下例建立 john 並利用 Object.create 傳 Person 當作其原型。 12345678var Person &#x3D; &amp;#123;  firstname: &amp;#x27;Default&amp;#x27;,  lastname: &amp;#x27;Def">
+<meta property="og:type" content="article">
+<meta property="og:title" content="克服JS奇怪的部分 - Object.create 與純粹的原型繼承">
+<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20Object.create%20%E8%88%87%E7%B4%94%E7%B2%B9%E7%9A%84%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF/index.html">
+<meta property="og:site_name" content="黑底白字">
+<meta property="og:description" content="Object.create 與純粹的原型繼承Object.create 會用它的原型建立空物件，它的原型就是傳入 Object.create 的東西，下例建立 john 並利用 Object.create 傳 Person 當作其原型。 12345678var Person &#x3D; &amp;#123;  firstname: &amp;#x27;Default&amp;#x27;,  lastname: &amp;#x27;Def">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://miro.medium.com/max/1060/1*47QM2-Rwac5k1YbdZ3-UiA.png">
+<meta property="og:image" content="https://miro.medium.com/max/1248/1*TxG1-MhnYVS7xsedQQZfxQ.png">
+<meta property="article:published_time" content="2021-01-11T10:36:51.000Z">
+<meta property="article:modified_time" content="2021-02-01T09:46:04.775Z">
+<meta property="article:author" content="Iris Huang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="克服JS奇怪的部分">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miro.medium.com/max/1060/1*47QM2-Rwac5k1YbdZ3-UiA.png">
+
+<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20Object.create%20%E8%88%87%E7%B4%94%E7%B2%B9%E7%9A%84%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-tw'
+  };
+</script>
+
+  <title>克服JS奇怪的部分 - Object.create 與純粹的原型繼承 | 黑底白字</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">黑底白字</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主頁">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主頁</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20Object.create%20%E8%88%87%E7%B4%94%E7%B2%B9%E7%9A%84%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          克服JS奇怪的部分 - Object.create 與純粹的原型繼承
+        </h1>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20Object.create%20%E8%88%87%E7%B4%94%E7%B2%B9%E7%9A%84%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  Object.create 與純粹的原型繼承/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Object-create-與純粹的原型繼承"><a href="#Object-create-與純粹的原型繼承" class="headerlink" title="Object.create 與純粹的原型繼承"></a>Object.create 與純粹的原型繼承</h2><p>Object.create 會用它的原型建立空物件，它的原型就是傳入 Object.create 的東西，下例建立 john 並利用 Object.create 傳 Person 當作其原型。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Person = &#123;</span><br><span class="line">  firstname: <span class="string">&#x27;Default&#x27;</span>,</span><br><span class="line">  lastname: <span class="string">&#x27;Default&#x27;</span>,</span><br><span class="line">  greet: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hi &#x27;</span> + <span class="built_in">this</span>.firstname;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> john = <span class="built_in">Object</span>.create(Person); <span class="comment">//此時 john 為空物件，proto 為 Person</span></span><br></pre></td></tr></table></figure>
+<img src="https://miro.medium.com/max/1060/1*47QM2-Rwac5k1YbdZ3-UiA.png" width="50%">
+Console.log(john) ，John 為 {} ，其原型為 Person
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在空陣列 john 中建立同樣名稱的屬性或方法</span><br><span class="line">JavaScript 引擎會到原型鏈上尋找屬性和方法直到它找到，建立 john 的 firstname 和 lastname 後，john 仍有它的原型可以呼叫，因此執行 john.greet()可以得到<span class="string">&#x27;Hi John&#x27;</span></span><br><span class="line">john.firstname = <span class="string">&#x27;John&#x27;</span>;</span><br><span class="line">john.lasttname = <span class="string">&#x27;Doe&#x27;</span>;</span><br><span class="line">john.greet() <span class="comment">// &#x27;Hi John&#x27;</span></span><br></pre></td></tr></table></figure>
+<img src="https://miro.medium.com/max/1248/1*TxG1-MhnYVS7xsedQQZfxQ.png" width="50%">
+
+<p>＊<a target="_blank" rel="noopener" href="https://codepen.io/irishuang/pen/VwwRdBY?editors=0010">使用 Es5 與 Es6 的練習</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////// ES5 //////////</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Person constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">birthyear, name = <span class="string">&#x27;無名氏&#x27;</span>, gender = <span class="string">&#x27;無&#x27;</span></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">  <span class="built_in">this</span>.birth = birthyear;</span><br><span class="line">  <span class="built_in">this</span>.gender = gender;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Person prototype</span></span><br><span class="line">Person.prototype.describe = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> thisYear = <span class="keyword">new</span> <span class="built_in">Date</span>().getFullYear();</span><br><span class="line">  <span class="keyword">const</span> age = thisYear - <span class="built_in">this</span>.birth;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>是一位<span class="subst">$&#123;age&#125;</span>歲的<span class="subst">$&#123;<span class="built_in">this</span>.gender&#125;</span>性。`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Engineer constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Engineer</span>(<span class="params">monthSalary, birthyear, name, gender</span>) </span>&#123;</span><br><span class="line">  Person.call(<span class="built_in">this</span>, birthyear, name, gender);</span><br><span class="line">  <span class="built_in">this</span>.career = <span class="string">&#x27;工程師&#x27;</span>;</span><br><span class="line">  <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Add Person prototype and constructor</span></span><br><span class="line">Engineer.prototype = <span class="built_in">Object</span>.create(Person.prototype);</span><br><span class="line">Engineer.prototype.constructor = Engineer;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Engineer prototype</span></span><br><span class="line">Engineer.prototype.allDescribe = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得bug好多debug好累，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Account constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Account</span>(<span class="params">monthSalary, birthyear, name, gender</span>) </span>&#123;</span><br><span class="line">  Person.call(<span class="built_in">this</span>, birthyear, name, gender);</span><br><span class="line">  <span class="built_in">this</span>.career = <span class="string">&#x27;業務員&#x27;</span>;</span><br><span class="line">  <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Add Person prototype and constructor</span></span><br><span class="line">Account.prototype = <span class="built_in">Object</span>.create(Person.prototype);</span><br><span class="line">Account.prototype.constructor = Account;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Account prototype</span></span><br><span class="line">Account.prototype.allDescribe = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得客戶好煩要求一堆，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//console results</span></span><br><span class="line"><span class="keyword">const</span> Hua = <span class="keyword">new</span> Engineer(<span class="number">50000</span>, <span class="number">1990</span>, <span class="string">&#x27;小花&#x27;</span>, <span class="string">&#x27;女&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Hua.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Hua.allDescribe());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Ming = <span class="keyword">new</span> Account(<span class="number">60000</span>, <span class="number">1988</span>, <span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;男&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Ming.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Ming.allDescribe());</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////// ES6 //////////</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Person class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person1</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">birthyear, name = <span class="string">&#x27;無名氏&#x27;</span>, gender = <span class="string">&#x27;無&#x27;</span></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.birth = birthyear;</span><br><span class="line">    <span class="built_in">this</span>.gender = gender;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">describe</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> thisYear = <span class="keyword">new</span> <span class="built_in">Date</span>().getFullYear();</span><br><span class="line">    <span class="keyword">const</span> age = thisYear - <span class="built_in">this</span>.birth;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>是一位<span class="subst">$&#123;age&#125;</span>歲的<span class="subst">$&#123;<span class="built_in">this</span>.gender&#125;</span>性。`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Engineer class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer1</span> <span class="keyword">extends</span> <span class="title">Person1</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">monthSalary, birthyear, name, gender</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(birthyear, name, gender);</span><br><span class="line">    <span class="built_in">this</span>.career = <span class="string">&#x27;工程師&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">allDescribe</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得bug好多debug好累，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Account class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account1</span> <span class="keyword">extends</span> <span class="title">Person1</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">monthSalary, birthyear, name, gender</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(birthyear, name, gender);</span><br><span class="line">    <span class="built_in">this</span>.career = <span class="string">&#x27;業務員&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">allDescribe</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得客戶好煩要求一堆，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//console results</span></span><br><span class="line"><span class="keyword">const</span> Hua1 = <span class="keyword">new</span> Engineer1(<span class="number">50000</span>, <span class="number">1990</span>, <span class="string">&#x27;小花&#x27;</span>, <span class="string">&#x27;女&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Hua1.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Hua1.allDescribe());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Ming1 = <span class="keyword">new</span> Account1(<span class="number">60000</span>, <span class="number">1988</span>, <span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;男&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Ming1.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Ming1.allDescribe());</span><br></pre></td></tr></table></figure>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86/" rel="tag"># 克服JS奇怪的部分</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20.prototype/" rel="prev" title="克服JS奇怪的部分 - 函數建構子 與 .prototype">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 函數建構子 與 .prototype
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20-%20%E5%AE%89%E8%A3%9D%E8%A8%AD%E5%AE%9A%20Tailwind,%20PostCSS,%20PurgeCSS/" rel="next" title="Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS">
+      Tailwind 學習紀錄 - 安裝設定 Tailwind, PostCSS, PurgeCSS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-create-%E8%88%87%E7%B4%94%E7%B2%B9%E7%9A%84%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF"><span class="nav-number">1.</span> <span class="nav-text">Object.create 與純粹的原型繼承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Iris Huang</p>
+  <div class="site-description" itemprop="description">記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iris Huang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-lyaui-github-io.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20Object.create%20%E8%88%87%E7%B4%94%E7%B2%B9%E7%9A%84%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF/";
+    this.page.identifier = "2021/01/11/克服JS奇怪的部分 -  Object.create 與純粹的原型繼承/";
+    this.page.title = "克服JS奇怪的部分 - Object.create 與純粹的原型繼承";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://https-lyaui-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
