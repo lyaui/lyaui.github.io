@@ -20,24 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="變數環境 (variable environment) Where the variable variables live  And how they relate to each other in memory描述你 創造 變數的位置，以及它在記憶體中和其它變數的關係。">
+  <meta name="description" content="函數建構子 (Function Constructors)、new A normal function that is used to construct objects.  The ‘this’ variable points a new empty object, and that object is returned from the function automatically. 一個用來">
 <meta property="og:type" content="article">
-<meta property="og:title" content="克服JS奇怪的部分 - 變數環境、範圍與範圍鏈">
-<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/index.html">
+<meta property="og:title" content="克服JS奇怪的部分 - 函數建構子 與 new">
+<meta property="og:url" content="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/index.html">
 <meta property="og:site_name" content="黑底白字">
-<meta property="og:description" content="變數環境 (variable environment) Where the variable variables live  And how they relate to each other in memory描述你 創造 變數的位置，以及它在記憶體中和其它變數的關係。">
+<meta property="og:description" content="函數建構子 (Function Constructors)、new A normal function that is used to construct objects.  The ‘this’ variable points a new empty object, and that object is returned from the function automatically. 一個用來">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://miro.medium.com/max/1400/1*7j9U9iZhG8mfxHSXtDlHqg.png">
-<meta property="og:image" content="https://miro.medium.com/max/1400/1*QiNgdWS2X8DN-b5FQSRe1Q.png">
-<meta property="article:published_time" content="2021-01-11T10:33:38.000Z">
-<meta property="article:modified_time" content="2021-01-22T09:58:55.607Z">
+<meta property="article:published_time" content="2021-01-11T10:34:51.000Z">
+<meta property="article:modified_time" content="2021-02-01T07:52:44.042Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="克服JS奇怪的部分">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://miro.medium.com/max/1400/1*7j9U9iZhG8mfxHSXtDlHqg.png">
 
-<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/">
+<link rel="canonical" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/">
 
 
 <script id="page-configurations">
@@ -50,7 +47,7 @@
   };
 </script>
 
-  <title>克服JS奇怪的部分 - 變數環境、範圍與範圍鏈 | 黑底白字</title>
+  <title>克服JS奇怪的部分 - 函數建構子 與 new | 黑底白字</title>
   
 
 
@@ -150,7 +147,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -163,7 +160,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          克服JS奇怪的部分 - 變數環境、範圍與範圍鏈
+          克服JS奇怪的部分 - 函數建構子 與 new
         </h1>
 
         <div class="post-meta">
@@ -177,8 +174,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 變數環境、範圍與範圍鏈/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  函數建構子 與 new/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -193,31 +190,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="變數環境-variable-environment"><a href="#變數環境-variable-environment" class="headerlink" title="變數環境 (variable environment)"></a>變數環境 (variable environment)</h2><blockquote>
-<p>Where the variable variables live</p>
+        <h2 id="函數建構子-Function-Constructors-、new"><a href="#函數建構子-Function-Constructors-、new" class="headerlink" title="函數建構子 (Function Constructors)、new"></a>函數建構子 (Function Constructors)、new</h2><blockquote>
+<p>A normal function that is used to construct objects.</p>
 </blockquote>
-<p>And how they relate to each other in memory<br>描述你 <strong>創造</strong> 變數的位置，以及它在記憶體中和其它變數的關係。</p>
+<p>The ‘this’ variable points a new empty object, and that object is returned from the function automatically.</p>
+<p>一個用來建立物件的正常函數。<br>當呼叫函數前面放了 <code>new</code> 關鍵字（new 是運算子的一種），在執行環境的創造階段被產生的 this 變數會 <strong>指向新的空物件</strong>，當函數結束執行時，該物件會被函數自動回傳。</p>
 <a id="more"></a>
-<img src="https://miro.medium.com/max/1400/1*7j9U9iZhG8mfxHSXtDlHqg.png" width="80%">
 
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> myVar;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;yo&#x27;</span>, myVar); <span class="comment">// undefined</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> myVar = <span class="number">2</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;yo&#x27;</span>, myVar); <span class="comment">// 2</span></span><br><span class="line">  b();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myVar = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;yo&#x27;</span>, myVar); <span class="comment">// 1</span></span><br><span class="line">a();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;yo&#x27;</span>, myVar); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
-<p>以上例來說，這裡的每個變數 myVar 都被定義在自己的執行環境（所處的函數中），每當呼叫函數，就會得到這函數自己的執行環境。因此，儘管 myVar 被宣告 3 次（如果未宣告而直接賦值則會成為全域變數），但因為所處不同的環境，它們是不同的、不一樣的，彼此沒有關聯。</p>
-<p>而當 a 被執行完畢後，就會回到全域的環境，此時的 myVar 就是全域時所被賦予的 1。</p>
-<h2 id="範圍-Scope"><a href="#範圍-Scope" class="headerlink" title="範圍 (Scope)"></a>範圍 (Scope)</h2><blockquote>
-<p>Where a variable is available in your code</p>
-</blockquote>
-<p>And if it’s truly the same variable, or a new copy</p>
-<p>範圍是變數可以被取用的區域。</p>
-<h2 id="範圍鏈-Scope-Chain"><a href="#範圍鏈-Scope-Chain" class="headerlink" title="範圍鏈 (Scope Chain)"></a>範圍鏈 (Scope Chain)</h2><blockquote>
-<p>「範圍」代表能夠取用指定變數的地方，而「鏈」是外部環境參照的連結。</p>
-</blockquote>
-<p>函數從 <strong>詞彙環境(Lexical environments)</strong> 不斷向外部環境（同時也是執行堆下方）尋找變數所處的範圍的過程軌跡。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//fn b 被寫在 window 中，此時它的詞彙環境(Lexical environments)是 window</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(myVar); <span class="comment">// myVar = 1，因為 b 裡面沒有 myVar 因此向外參照全域的 myVar</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  myVar = <span class="number">2</span>;</span><br><span class="line">  b();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myVar = <span class="number">1</span>;</span><br><span class="line">a();</span><br></pre></td></tr></table></figure>
-<p>上例中，因為在 b 中未宣告或復直 myVar，所以在 b 的執行環境中找不到 myVar 的值，要參照它的外部環境(Outer Environment)。</p>
-<p>那麼，如何決定要參照哪個外部環境呢？就看 b 所處的詞彙環境，也就是物理上程式碼被寫在哪裡，而 b 被寫在 window 中，此時它的物部環境是 window。在 window 中 myVar = 1，因此 console.log(myVar) = 1。</p>
-<img src="https://miro.medium.com/max/1400/1*QiNgdWS2X8DN-b5FQSRe1Q.png" width="80%">
-上圖可看出執行環境取得的變數環境不必是正下方的執行環境，本例 a 雖然呼叫 b，但並不是 b 的詞彙環境。
-
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Function Constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">firstname, lastname</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">  <span class="built_in">this</span>.firstname = firstname;</span><br><span class="line">  <span class="built_in">this</span>.lastname = lastname;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;This function is invoked&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 <code>new</code> 運算子建立新的物件，在後面呼叫函數執行環境會產生 this，而 this 變數會指向新的空物件記憶體位置。<br>只要函數使用 <code>new</code> 運算子的話，會回傳被 new 運算子建立的物件，而用 this 變數指向的空物件呼叫函數，無論用 this 變數對空物件做什麼，就會成為那個物件的一部份，也就是會回傳的東西。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> john = <span class="keyword">new</span> Person(<span class="string">&#x27;John&#x27;</span>, <span class="string">&#x27;Doe&#x27;</span>); <span class="comment">// 執行 john 時 this 指向 john 物件</span></span><br><span class="line">Person &#123;&#125; <span class="comment">// 第1次 console 時還沒有設定傳入的參數因此是空物件</span></span><br><span class="line">Person &#123; <span class="attr">firstname</span>: <span class="string">&#x27;John&#x27;</span>,  <span class="attr">lastname</span>: <span class="string">&#x27;Doe&#x27;</span> &#125;; <span class="comment">// 第2次 console 時已設定了內容</span></span><br><span class="line"><span class="string">&#x27;This function is invoked&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> jane = <span class="keyword">new</span> Person(<span class="string">&#x27;Jame&#x27;</span>, <span class="string">&#x27;Doe&#x27;</span>); <span class="comment">// 執行 jane 時 this 指向 jane 物件。</span></span><br><span class="line">Person &#123;&#125;</span><br><span class="line">Person &#123; <span class="attr">firstname</span>: <span class="string">&#x27;Jame&#x27;</span>,  <span class="attr">lastname</span>: <span class="string">&#x27;Doe&#x27;</span> &#125;;</span><br><span class="line"><span class="string">&#x27;This function is invoked&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>使用 new 會自動回傳空物件，但如果設定 return 回傳別的東西（例如 ‘yo’），就會回傳我們設定的東西而非原本會回傳的物件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">firstname, lastname</span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;yo&#x27;</span><span class="comment">// 回傳&#x27;yo&#x27;而非建立的物件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="「new」注意事項"><a href="#「new」注意事項" class="headerlink" title="「new」注意事項"></a>「new」注意事項</h2><p>若沒在呼叫 Person 函數前加入 new ，函數呼叫依然會執行，但就不會新增空的物件也不會回傳物件，而 Person 中並未設定 return 的東西，因此結果會是 <strong>undefined</strong>。</p>
+<p>建議建構函數都以首字大寫命名，以降低出錯的機會。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">firstname, lastname</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.firstname = firstname;</span><br><span class="line">  <span class="built_in">this</span>.lastname = lastname;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> john = Person(<span class="string">&#x27;John&#x27;</span>, <span class="string">&#x27;Doe&#x27;</span>); <span class="comment">// undefuined</span></span><br></pre></td></tr></table></figure>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
 </ul>
@@ -240,12 +227,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E5%9F%B7%E8%A1%8C%E7%B7%92%E3%80%81%E5%87%BD%E6%95%B8%E5%91%BC%E5%8F%AB%E8%88%87%E5%9F%B7%E8%A1%8C%E5%A0%86/" rel="prev" title="克服JS奇怪的部分 - 執行緒、函數呼叫與執行堆">
-      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 執行緒、函數呼叫與執行堆
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91%E8%88%87%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF/" rel="prev" title="克服JS奇怪的部分 - 物件導向與原型繼承">
+      <i class="fa fa-chevron-left"></i> 克服JS奇怪的部分 - 物件導向與原型繼承
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E9%97%9C%E6%96%BC%E9%9D%9E%E5%90%8C%E6%AD%A5%E5%9B%9E%E5%91%BC/" rel="next" title="克服JS奇怪的部分 - 關於非同步回呼">
-      克服JS奇怪的部分 - 關於非同步回呼 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20.prototype/" rel="next" title="克服JS奇怪的部分 - 建立物件">
+      克服JS奇怪的部分 - 建立物件 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -312,7 +299,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83-variable-environment"><span class="nav-number">1.</span> <span class="nav-text">變數環境 (variable environment)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AF%84%E5%9C%8D-Scope"><span class="nav-number">2.</span> <span class="nav-text">範圍 (Scope)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AF%84%E5%9C%8D%E9%8F%88-Scope-Chain"><span class="nav-number">3.</span> <span class="nav-text">範圍鏈 (Scope Chain)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90-Function-Constructors-%E3%80%81new"><span class="nav-number">1.</span> <span class="nav-text">函數建構子 (Function Constructors)、new</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%8Cnew%E3%80%8D%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">2.</span> <span class="nav-text">「new」注意事項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -433,9 +420,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E8%AE%8A%E6%95%B8%E7%92%B0%E5%A2%83%E3%80%81%E7%AF%84%E5%9C%8D%E8%88%87%E7%AF%84%E5%9C%8D%E9%8F%88/";
-    this.page.identifier = "2021/01/11/克服JS奇怪的部分 - 變數環境、範圍與範圍鏈/";
-    this.page.title = "克服JS奇怪的部分 - 變數環境、範圍與範圍鏈";
+    this.page.url = "http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/";
+    this.page.identifier = "2021/01/11/克服JS奇怪的部分 -  函數建構子 與 new/";
+    this.page.title = "克服JS奇怪的部分 - 函數建構子 與 new";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {

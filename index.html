@@ -285,7 +285,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%BB%BA%E7%AB%8B%E7%89%A9%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20.prototype/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -299,7 +299,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%BB%BA%E7%AB%8B%E7%89%A9%E4%BB%B6/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 建立物件</a>
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20.prototype/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 建立物件</a>
         </h2>
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%BB%BA%E7%AB%8B%E7%89%A9%E4%BB%B6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  建立物件/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20.prototype/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  函數建構子 與 .prototype/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -329,13 +329,106 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="函數建構子-Function-Constructors"><a href="#函數建構子-Function-Constructors" class="headerlink" title="函數建構子 (Function Constructors)"></a>函數建構子 (Function Constructors)</h2><blockquote>
+          <h2 id="函數建構子-Function-Constructors-、-prototype"><a href="#函數建構子-Function-Constructors-、-prototype" class="headerlink" title="函數建構子 (Function Constructors)、.prototype"></a>函數建構子 (Function Constructors)、.prototype</h2><p>原型屬性只有 <strong>作為建構子</strong> 使用時才會有意義。</p>
+<p>所有的函數都有原型屬性 <code>prototype</code>，從它是空物件就誕生，可為它新增屬性或方法。然而除非將函數作為 <strong>建構子</strong> 使用，不然它就只是待在那不會用到。</p>
+<p>但一旦用 new 運算子呼叫函數，它 <code>prototype</code> 就有意義了。</p>
+<img src="https://miro.medium.com/max/1400/1*GOukCXk26i2YpIPy73J6Mw.png" width="70%">
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">firstname, lastname</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.firstname = firstname;</span><br><span class="line">  <span class="built_in">this</span>.lastname = lastname;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>當用 new 關鍵字建立空物件，new 會為空物件預設隱藏的 prototype 原型屬性（也是用 new 建立的物件其原型鏈所指向的東西），讓我們之後可以在它底下新增屬性或方法。</p>
+<p>以下例而言，在 Person 的 <code>prototype</code> 屬性下新增方法 getFullName，而這個 Person.prototype 屬性就是用函數建構子建立的物件 <code>john.__proto__</code> 和 <code>jane.__proto__</code> 的原型鏈指向的東西。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Person.prototype.getFullName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.firstname + <span class="string">&#x27; &#x27;</span> + <span class="built_in">this</span>.lastname;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> john = <span class="keyword">new</span> Person(<span class="string">&#x27;John&#x27;</span>, <span class="string">&#x27;Doe&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> jane = <span class="keyword">new</span> Person(<span class="string">&#x27;Jame&#x27;</span>, <span class="string">&#x27;Doe&#x27;</span>);</span><br><span class="line">john.__proto__ = <span class="built_in">Object</span> &#123; <span class="attr">getFullName</span>: getFullName(), … &#125; <span class="comment">// 原型鏈的指向</span></span><br><span class="line"></span><br><span class="line">john.getFullName(); <span class="comment">// &#x27;John Doe&#x27;，john 中找不到，就會往 Person 找並執行</span></span><br></pre></td></tr></table></figure>
+<img src="https://miro.medium.com/max/1272/1*9nzFxtECMD4KAl7n0btTGA.png" width="50%">
+（未設定 prototype 與設定 prototype 中的 getFullName）
+
+<p>而為何不直接將 getFullName 建立在 Person 中而是放在 prototype 裡呢？</p>
+<p>因為函數就是物件，它們佔據記憶體空間，任何你增加給它們的東西都會 佔據記憶體空間，所以若新增 getFullName 給每個物件，表示每個物件都有自己的 getFullName 拷貝，就會佔據更多記憶體空間。</p>
+<p>如果有一千個物件就會有一千個 getFullName 方法，但若將 getFullName 增加到原型上，雖然有一千個物件但只會有一個方法供大家參考，就 <strong>效能</strong> 的觀點來看較好。</p>
+<h2 id="內建的函數建構子"><a href="#內建的函數建構子" class="headerlink" title="內建的函數建構子"></a>內建的函數建構子</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">3</span>) <span class="comment">// 輸入 a 回傳 Number &#123; 3 &#125; 為一物件</span></span><br><span class="line">a.proto = <span class="built_in">Number</span>&#123; <span class="number">0</span> &#125;</span><br><span class="line">a.toFixed(<span class="number">2</span>) = <span class="string">&#x27;3.00&#x27;</span> <span class="comment">// 可以使用 Number.prototype 底下的方法</span></span><br></pre></td></tr></table></figure>
+<p>使用 new 建立數字 a 為一物件，它有原型 Number.prototype，所以 Number 物件的方法例如 toPrecision 或 toFixed 都可以取用到。<br>使用 new 建立字串同理。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">&#x27;john&#x27;</span>) <span class="comment">// 輸入 a 回傳 String &#123; &#x27;john&#x27; &#125; 為一物件</span></span><br><span class="line">a.proto = <span class="built_in">String</span> &#123; <span class="string">&#x27;&#x27;</span> &#125;</span><br><span class="line">a.indexOf(<span class="string">&#x27;o&#x27;</span>) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>所以當使用 new 建構子要記得是在建立物件，並可以利用 prototype 加入方法，這在建立一些資源庫或框架的額外功能時很有幫助。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在字串原型加入判別長度的方法，所有的字串都能使用</span></span><br><span class="line"><span class="built_in">String</span>.prototype.isLengthGreaterThan = <span class="function"><span class="keyword">function</span> (<span class="params">limit</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span>.length &gt; limit;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;john&#x27;</span>.isLengthGreaterThan(<span class="number">3</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在數字原型加入判別長度的方法，所有的數字都能使用</span></span><br><span class="line"><span class="built_in">Number</span>.prototype.isPositive = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">this</span> &gt; <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">console</span>.log(a.isPositive());</span><br><span class="line"><span class="comment">//\*JS 會把字串包到物件中，但它不會自動轉換數值為物件，故上面數字使用 new 建立</span></span><br></pre></td></tr></table></figure>
+<p>＊不建議使用 new 建構子來建立純值，因為純值會被轉為物件。</p>
+<h2 id="Object-create-與純粹的原型繼承"><a href="#Object-create-與純粹的原型繼承" class="headerlink" title="Object.create 與純粹的原型繼承"></a>Object.create 與純粹的原型繼承</h2><p>Object.create 會用它的原型建立空物件，它的原型就是傳入 Object.create 的東西，下例建立 john 並利用 Object.create 傳 Person 當作其原型。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Person = &#123;</span><br><span class="line">  firstname: <span class="string">&#x27;Default&#x27;</span>,</span><br><span class="line">  lastname: <span class="string">&#x27;Default&#x27;</span>,</span><br><span class="line">  greet: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hi &#x27;</span> + <span class="built_in">this</span>.firstname;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> john = <span class="built_in">Object</span>.create(Person); <span class="comment">//此時 john 為空物件，proto 為 Person</span></span><br></pre></td></tr></table></figure>
+<p>Image for post<br>Console.log(john) ，John 為 {} ，其原型為 Person</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">在空陣列 john 中建立同樣名稱的屬性或方法</span><br><span class="line">JavaScript 引擎會到原型鏈上尋找屬性和方法直到它找到，建立 john 的 firstname 和 lastname 後，john 仍有它的原型可以呼叫，因此執行 john.greet()可以得到<span class="string">&#x27;Hi John&#x27;</span></span><br><span class="line">john.firstname = <span class="string">&#x27;John&#x27;</span>;</span><br><span class="line">john.lasttname = <span class="string">&#x27;Doe&#x27;</span>;</span><br><span class="line">john.greet() <span class="comment">// &#x27;Hi John&#x27;</span></span><br><span class="line">Image <span class="keyword">for</span> post</span><br><span class="line">＊使用 Es5 與 Es6 的練習</span><br></pre></td></tr></table></figure>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 函數建構子 與 new</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 -  函數建構子 與 new/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="函數建構子-Function-Constructors-、new"><a href="#函數建構子-Function-Constructors-、new" class="headerlink" title="函數建構子 (Function Constructors)、new"></a>函數建構子 (Function Constructors)、new</h2><blockquote>
 <p>A normal function that is used to construct objects.</p>
 </blockquote>
-<p>The ‘this’ variable points a new empty object, and that object is returned from the function automatically.<br>一個正常的函數用來建立物件。<br>當呼叫函數前面放了 new 關鍵字（new 是運算子的一種），在執行環境的創造階段被產生的 this 變數會指向新的空物件，當函數結束執行時，該物件會被函數自動回傳。</p>
+<p>The ‘this’ variable points a new empty object, and that object is returned from the function automatically.</p>
+<p>一個用來建立物件的正常函數。<br>當呼叫函數前面放了 <code>new</code> 關鍵字（new 是運算子的一種），在執行環境的創造階段被產生的 this 變數會 <strong>指向新的空物件</strong>，當函數結束執行時，該物件會被函數自動回傳。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%BB%BA%E7%AB%8B%E7%89%A9%E4%BB%B6/#more" rel="contents">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20%E5%87%BD%E6%95%B8%E5%BB%BA%E6%A7%8B%E5%AD%90%20%E8%88%87%20new/#more" rel="contents">
                 更多 &raquo;
               </a>
             </div>
@@ -801,82 +894,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20This/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Iris Huang">
-      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑底白字">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20This/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - This</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20This/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - This/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="什麼是-This"><a href="#什麼是-This" class="headerlink" title="什麼是 This"></a>什麼是 This</h2><p>每當函數被執行，執行環境被創造，同時 JavaScript 引擎會給我們一個不曾宣告的東西： this 變數。<br>this 會指向不同的物件，並依據函數 <strong>如何被呼叫而</strong> 改變。</p>
-<ul>
-<li>this 是 JavaScript 的一個關鍵字。</li>
-<li>this 是 function 執行時，自動生成的一個內部物件。</li>
-<li>隨著 function 執行場合的不同，this 所指向的值，也會有所不同。</li>
-<li>在大多數的情況下， this 代表的就是呼叫 function 的物件 (Owner Object of the function)。<br>出自<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10193193">重新認識 JavaScript: Day 20 What’s “THIS” in JavaScript (鐵人精華版)</a>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20This/#more" rel="contents">
-                更多 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -945,7 +962,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
