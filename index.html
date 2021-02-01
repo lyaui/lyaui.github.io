@@ -142,78 +142,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/15/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20JS%20Interview%20Prep:%20Practice%20Problems%201-10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Iris Huang">
-      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黑底白字">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/15/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20JS%20Interview%20Prep:%20Practice%20Problems%201-10/" class="post-title-link" itemprop="url">JS Interview Prep Practice Problems 1-10</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/01/15/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20JS%20Interview%20Prep:%20Practice%20Problems%201-10/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/15/克服JS奇怪的部分 -  JS Interview Prep: Practice Problems 1-10/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>JS 面試題目整理 JavaScript Interview Prep: Practice Problems 1~10<br>其實課程才 4 小時滿短的，但裡面的 30 題都是滿重點的觀念題，很適合拿來在面試前作為複習。</p>
-<p>Triple Add Function/ Working With IIFEs/ Button 5/ Closure/ This/ Hoisting/ Scope and ‘self’/ Equals vs Strict Equals/ Log Number Function</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/15/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20JS%20Interview%20Prep:%20Practice%20Problems%201-10/#more" rel="contents">
-                更多 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20-%20%E8%87%AA%E8%A8%82%E6%A8%A3%E5%BC%8F%E8%A8%AD%E5%AE%9A/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -401,21 +329,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Object-create-與純粹的原型繼承"><a href="#Object-create-與純粹的原型繼承" class="headerlink" title="Object.create 與純粹的原型繼承"></a>Object.create 與純粹的原型繼承</h2><p>Object.create 會用它的原型建立空物件，它的原型就是傳入 Object.create 的東西，下例建立 john 並利用 Object.create 傳 Person 當作其原型。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Person = &#123;</span><br><span class="line">  firstname: <span class="string">&#x27;Default&#x27;</span>,</span><br><span class="line">  lastname: <span class="string">&#x27;Default&#x27;</span>,</span><br><span class="line">  greet: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hi &#x27;</span> + <span class="built_in">this</span>.firstname;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> john = <span class="built_in">Object</span>.create(Person); <span class="comment">//此時 john 為空物件，proto 為 Person</span></span><br></pre></td></tr></table></figure>
-<img src="https://miro.medium.com/max/1060/1*47QM2-Rwac5k1YbdZ3-UiA.png" width="50%">
-Console.log(john) ，John 為 {} ，其原型為 Person
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在空陣列 john 中建立同樣名稱的屬性或方法</span><br><span class="line">JavaScript 引擎會到原型鏈上尋找屬性和方法直到它找到，建立 john 的 firstname 和 lastname 後，john 仍有它的原型可以呼叫，因此執行 john.greet()可以得到<span class="string">&#x27;Hi John&#x27;</span></span><br><span class="line">john.firstname = <span class="string">&#x27;John&#x27;</span>;</span><br><span class="line">john.lasttname = <span class="string">&#x27;Doe&#x27;</span>;</span><br><span class="line">john.greet() <span class="comment">// &#x27;Hi John&#x27;</span></span><br></pre></td></tr></table></figure>
-<img src="https://miro.medium.com/max/1248/1*TxG1-MhnYVS7xsedQQZfxQ.png" width="50%">
-
-<p>＊<a target="_blank" rel="noopener" href="https://codepen.io/irishuang/pen/VwwRdBY?editors=0010">使用 Es5 與 Es6 的練習</a></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////// ES5 //////////</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Person constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">birthyear, name = <span class="string">&#x27;無名氏&#x27;</span>, gender = <span class="string">&#x27;無&#x27;</span></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">  <span class="built_in">this</span>.birth = birthyear;</span><br><span class="line">  <span class="built_in">this</span>.gender = gender;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Person prototype</span></span><br><span class="line">Person.prototype.describe = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> thisYear = <span class="keyword">new</span> <span class="built_in">Date</span>().getFullYear();</span><br><span class="line">  <span class="keyword">const</span> age = thisYear - <span class="built_in">this</span>.birth;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>是一位<span class="subst">$&#123;age&#125;</span>歲的<span class="subst">$&#123;<span class="built_in">this</span>.gender&#125;</span>性。`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Engineer constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Engineer</span>(<span class="params">monthSalary, birthyear, name, gender</span>) </span>&#123;</span><br><span class="line">  Person.call(<span class="built_in">this</span>, birthyear, name, gender);</span><br><span class="line">  <span class="built_in">this</span>.career = <span class="string">&#x27;工程師&#x27;</span>;</span><br><span class="line">  <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Add Person prototype and constructor</span></span><br><span class="line">Engineer.prototype = <span class="built_in">Object</span>.create(Person.prototype);</span><br><span class="line">Engineer.prototype.constructor = Engineer;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Engineer prototype</span></span><br><span class="line">Engineer.prototype.allDescribe = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得bug好多debug好累，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Account constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Account</span>(<span class="params">monthSalary, birthyear, name, gender</span>) </span>&#123;</span><br><span class="line">  Person.call(<span class="built_in">this</span>, birthyear, name, gender);</span><br><span class="line">  <span class="built_in">this</span>.career = <span class="string">&#x27;業務員&#x27;</span>;</span><br><span class="line">  <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Add Person prototype and constructor</span></span><br><span class="line">Account.prototype = <span class="built_in">Object</span>.create(Person.prototype);</span><br><span class="line">Account.prototype.constructor = Account;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Account prototype</span></span><br><span class="line">Account.prototype.allDescribe = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得客戶好煩要求一堆，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//console results</span></span><br><span class="line"><span class="keyword">const</span> Hua = <span class="keyword">new</span> Engineer(<span class="number">50000</span>, <span class="number">1990</span>, <span class="string">&#x27;小花&#x27;</span>, <span class="string">&#x27;女&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Hua.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Hua.allDescribe());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Ming = <span class="keyword">new</span> Account(<span class="number">60000</span>, <span class="number">1988</span>, <span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;男&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Ming.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Ming.allDescribe());</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////// ES6 //////////</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Person class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person1</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">birthyear, name = <span class="string">&#x27;無名氏&#x27;</span>, gender = <span class="string">&#x27;無&#x27;</span></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.birth = birthyear;</span><br><span class="line">    <span class="built_in">this</span>.gender = gender;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">describe</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> thisYear = <span class="keyword">new</span> <span class="built_in">Date</span>().getFullYear();</span><br><span class="line">    <span class="keyword">const</span> age = thisYear - <span class="built_in">this</span>.birth;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>是一位<span class="subst">$&#123;age&#125;</span>歲的<span class="subst">$&#123;<span class="built_in">this</span>.gender&#125;</span>性。`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Engineer class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer1</span> <span class="keyword">extends</span> <span class="title">Person1</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">monthSalary, birthyear, name, gender</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(birthyear, name, gender);</span><br><span class="line">    <span class="built_in">this</span>.career = <span class="string">&#x27;工程師&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">allDescribe</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得bug好多debug好累，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Account class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account1</span> <span class="keyword">extends</span> <span class="title">Person1</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">monthSalary, birthyear, name, gender</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(birthyear, name, gender);</span><br><span class="line">    <span class="built_in">this</span>.career = <span class="string">&#x27;業務員&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.monthlySalary = monthSalary;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">allDescribe</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>覺得客戶好煩要求一堆，月薪<span class="subst">$&#123;<span class="built_in">this</span>.monthlySalary&#125;</span>實在是太少了。`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//console results</span></span><br><span class="line"><span class="keyword">const</span> Hua1 = <span class="keyword">new</span> Engineer1(<span class="number">50000</span>, <span class="number">1990</span>, <span class="string">&#x27;小花&#x27;</span>, <span class="string">&#x27;女&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Hua1.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Hua1.allDescribe());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Ming1 = <span class="keyword">new</span> Account1(<span class="number">60000</span>, <span class="number">1988</span>, <span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;男&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Ming1.describe());</span><br><span class="line"><span class="built_in">console</span>.log(Ming1.allDescribe());</span><br></pre></td></tr></table></figure>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.udemy.com/course/javascriptjs/">JavaScript 全攻略：克服 JS 的奇怪部分</a></li>
-</ul>
-
+          <h2 id="Object-create-與純粹的原型繼承"><a href="#Object-create-與純粹的原型繼承" class="headerlink" title="Object.create 與純粹的原型繼承"></a>Object.create 與純粹的原型繼承</h2><p><code>Object.create</code> 會用它的原型建立空物件，而它的原型就是傳入 Object.create() 的東西。而在空陣列中建立同樣名稱的屬性或方法可以直接覆寫掉原型預設的屬性值，建立物件自己的屬性值。</p>
+<p>下例建立 john 並利用 Object.create 傳 Person 當作其原型。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%20Object.create%20%E8%88%87%E7%B4%94%E7%B2%B9%E7%9A%84%E5%8E%9F%E5%9E%8B%E7%B9%BC%E6%89%BF/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -874,6 +797,82 @@ Console.log(john) ，John 為 {} ，其原型為 Person
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Iris Huang">
+      <meta itemprop="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黑底白字">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/" class="post-title-link" itemprop="url">克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/11/克服JS奇怪的部分 - 立即呼叫式 (IIFEs) 與安全程式碼/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="立即函式-IIFEs-Immediately-Invoked-Function-Expression"><a href="#立即函式-IIFEs-Immediately-Invoked-Function-Expression" class="headerlink" title="立即函式 IIFEs (Immediately Invoked Function Expression)"></a>立即函式 IIFEs (Immediately Invoked Function Expression)</h2><blockquote>
+<p>定義完馬上就執行的函式。</p>
+</blockquote>
+<ul>
+<li>是使用 Grouping Operator () 包起來的匿名函式。這樣的寫法可以避免裡面的變數污染到 global scope。</li>
+<li>馬上執行 function 的 expression ()，JavaScript 引擎看到它就會立刻轉譯該 function。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/11/%E5%85%8B%E6%9C%8DJS%E5%A5%87%E6%80%AA%E7%9A%84%E9%83%A8%E5%88%86%20-%20%E7%AB%8B%E5%8D%B3%E5%91%BC%E5%8F%AB%E5%BC%8F%20(IIFEs)%20%E8%88%87%E5%AE%89%E5%85%A8%E7%A8%8B%E5%BC%8F%E7%A2%BC/#more" rel="contents">
+                更多 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -942,7 +941,7 @@ Console.log(john) ，John 為 {} ，其原型為 Person
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
