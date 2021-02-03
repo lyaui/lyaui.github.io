@@ -22,18 +22,18 @@
 
   <meta name="description" content="本閱讀紀錄僅作為個人學習之用，省略了不少脈絡難免有斷章取義的情況，因此詳細內容請以下方連結資源為準：  購買書籍：讓 TypeScript 成為你全端開發的 ACE！（iT 邦幫忙鐵人賽系列書） 作者系列文章：讓 TypeScript 成為你全端開發的 ACE！ 系列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《讓 TypeScript 成為你全端開發的 ACE！》閱讀紀錄 - Ch1. TS 發展與概論">
-<meta property="og:url" content="http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%B4%80%E9%8C%84%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/index.html">
+<meta property="og:title" content="《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch1. TS 發展與概論">
+<meta property="og:url" content="http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/index.html">
 <meta property="og:site_name" content="黑底白字">
 <meta property="og:description" content="本閱讀紀錄僅作為個人學習之用，省略了不少脈絡難免有斷章取義的情況，因此詳細內容請以下方連結資源為準：  購買書籍：讓 TypeScript 成為你全端開發的 ACE！（iT 邦幫忙鐵人賽系列書） 作者系列文章：讓 TypeScript 成為你全端開發的 ACE！ 系列">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-01-15T10:35:51.000Z">
-<meta property="article:modified_time" content="2021-02-03T18:43:09.322Z">
+<meta property="article:modified_time" content="2021-02-03T18:48:00.197Z">
 <meta property="article:author" content="Iris Huang">
 <meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%B4%80%E9%8C%84%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/">
+<link rel="canonical" href="http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>《讓 TypeScript 成為你全端開發的 ACE！》閱讀紀錄 - Ch1. TS 發展與概論 | 黑底白字</title>
+  <title>《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch1. TS 發展與概論 | 黑底白字</title>
   
 
 
@@ -146,7 +146,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%B4%80%E9%8C%84%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          《讓 TypeScript 成為你全端開發的 ACE！》閱讀紀錄 - Ch1. TS 發展與概論
+          《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch1. TS 發展與概論
         </h1>
 
         <div class="post-meta">
@@ -173,8 +173,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%B4%80%E9%8C%84%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/15/ 《讓 TypeScript 成為你全端開發的 ACE！》閱讀紀錄 - Ch1. TS 發展與概論/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/15/ 《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch1. TS 發展與概論/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -231,59 +231,8 @@
 <li>第三方套件支援</li>
 <li>命名空間與模組</li>
 </ul>
-<h2 id="TS-型別系統概論"><a href="#TS-型別系統概論" class="headerlink" title="TS 型別系統概論"></a>TS 型別系統概論</h2><h3 id="型別推論與註記"><a href="#型別推論與註記" class="headerlink" title="型別推論與註記"></a>型別推論與註記</h3><p>型別推論與註記的使用沒有硬性規定，看情況決定使用比例</p>
-<ul>
-<li>函式的參數要標記型別</li>
-<li>不直覺、不易推想出來的也建議用註記</li>
-</ul>
-<h3 id="型別註記：註記-V-S-斷言"><a href="#型別註記：註記-V-S-斷言" class="headerlink" title="型別註記：註記 V.S. 斷言"></a>型別註記：註記 V.S. 斷言</h3><h4 id="註記-Annotation"><a href="#註記-Annotation" class="headerlink" title="註記(Annotation)"></a>註記(Annotation)</h4><ul>
-<li>帶有冒號<code>：</code>系列</li>
-<li>寫法：</li>
-</ul>
-<ol>
-<li>一般：<code>(input:number):boolean</code></li>
-<li>指派型：<code>(input:number) =&gt; boolean</code></li>
-</ol>
-<h4 id="斷言-Assertion"><a href="#斷言-Assertion" class="headerlink" title="斷言(Assertion)"></a>斷言(Assertion)</h4><ul>
-<li>無法推論某 <u><strong>表達式</strong></u> 之確切運算結果之型別 (e.g. 第三方資源、套件、API 結果)</li>
-<li>只要是表達式，任何表達式都可以被斷言</li>
-<li>斷言不能寫在名稱宣告部分，應該是在被指派的值或表達式的運算結果上</li>
-<li>寫法</li>
-</ul>
-<ol>
-<li><code>as</code></li>
-<li><code>&lt;T&gt;(...)</code></li>
-</ol>
-<h4 id="差異"><a href="#差異" class="headerlink" title="差異"></a>差異</h4><ul>
-<li>註記：任何被註記到的變數、函式的參數等，都必須 <u><strong>遵照</strong></u> 被註記過後的變數型別。</li>
-<li>斷言：被斷言過後的表達式之運算結果就是某某型別（<u><strong>覆蓋</strong></u>）。</li>
-</ul>
-<h3 id="TS-型別種類"><a href="#TS-型別種類" class="headerlink" title="TS 型別種類"></a>TS 型別種類</h3><ul>
-<li>Primitive Types：資料型別的最小單位概念</li>
-<li>物件型別</li>
-<li>TS 提供型別<ul>
-<li>元祖 (Tuple)：限制數量 &amp; 順序</li>
-<li>列舉 (Enum)：描述相似性質的資料</li>
-</ul>
-</li>
-<li>特殊型別<ul>
-<li>any</li>
-<li>never</li>
-<li>unknown</li>
-</ul>
-</li>
-<li>進階型別<ul>
-<li>泛用型別(Generic)：參數化</li>
-</ul>
-</li>
-</ul>
-<h3 id="明文型別-Literal-Types"><a href="#明文型別-Literal-Types" class="headerlink" title="明文型別 (Literal Types)"></a>明文型別 (Literal Types)</h3><ul>
-<li>就是「值」的表達方式</li>
-<li><strong>除了函式</strong> ，都可以自成一種型別<br><code>const foo:1|2|3 = 1</code></li>
-</ul>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li>購買書籍：<a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9789864344895">讓 TypeScript 成為你全端開發的 ACE！（iT 邦幫忙鐵人賽系列書）</a></li>
-<li>作者系列文章：<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/users/20120614/ironman/2685?sc=iThelpR">讓 TypeScript 成為你全端開發的 ACE！ 系列</a></li>
+<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9789864344895">讓 TypeScript 成為你全端開發的 ACE！（iT 邦幫忙鐵人賽系列書）</a></li>
 </ul>
 
     </div>
@@ -303,8 +252,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/12/Tailwind%20%E5%AD%B8%E7%BF%92%E7%B4%80%E9%8C%84%20-%20%E8%87%AA%E8%A8%82%E6%A8%A3%E5%BC%8F%E8%A8%AD%E5%AE%9A/" rel="prev" title="Tailwind 學習紀錄 - 自訂樣式設定">
-      <i class="fa fa-chevron-left"></i> Tailwind 學習紀錄 - 自訂樣式設定
+    <a href="/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98%20-%20Ch2.%20TS%20%E5%9E%8B%E5%88%A5%E7%B3%BB%E7%B5%B1%E6%A6%82%E8%AB%96/" rel="prev" title="《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch2. TS 型別系統概論">
+      <i class="fa fa-chevron-left"></i> 《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch2. TS 型別系統概論
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -372,7 +321,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-%E7%9B%B2%E9%BB%9E"><span class="nav-number">1.</span> <span class="nav-text">JS 盲點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8B%95%E6%85%8B%E8%AA%9E%E8%A8%80-v-s-%E9%9D%9C%E6%85%8B%E8%AA%9E%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">動態語言 v.s. 靜態語言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%8B%E5%88%A5%E8%A8%BB%E8%A8%98-v-s-%E5%9E%8B%E5%88%A5%E6%8E%A8%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">型別註記 v.s. 型別推論</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%B7%E5%9E%8B%E5%88%A5-v-s-%E5%BC%B1%E5%9E%8B%E5%88%A5"><span class="nav-number">4.</span> <span class="nav-text">強型別 v.s. 弱型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TS-%E6%94%B9%E5%96%84%E8%A7%A3%E6%B1%BA%E7%9A%84%E5%95%8F%E9%A1%8C%E3%80%81%E5%84%AA%E9%BB%9E"><span class="nav-number">5.</span> <span class="nav-text">TS 改善解決的問題、優點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TS-%E7%BC%BA%E9%BB%9E"><span class="nav-number">6.</span> <span class="nav-text">TS 缺點</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TS-%E5%9E%8B%E5%88%A5%E7%B3%BB%E7%B5%B1%E6%A6%82%E8%AB%96"><span class="nav-number"></span> <span class="nav-text">TS 型別系統概論</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%8B%E5%88%A5%E6%8E%A8%E8%AB%96%E8%88%87%E8%A8%BB%E8%A8%98"><span class="nav-number">1.</span> <span class="nav-text">型別推論與註記</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%8B%E5%88%A5%E8%A8%BB%E8%A8%98%EF%BC%9A%E8%A8%BB%E8%A8%98-V-S-%E6%96%B7%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">型別註記：註記 V.S. 斷言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A8%BB%E8%A8%98-Annotation"><span class="nav-number">2.1.</span> <span class="nav-text">註記(Annotation)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B7%E8%A8%80-Assertion"><span class="nav-number">2.2.</span> <span class="nav-text">斷言(Assertion)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%AE%E7%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">差異</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TS-%E5%9E%8B%E5%88%A5%E7%A8%AE%E9%A1%9E"><span class="nav-number">3.</span> <span class="nav-text">TS 型別種類</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%8E%E6%96%87%E5%9E%8B%E5%88%A5-Literal-Types"><span class="nav-number">4.</span> <span class="nav-text">明文型別 (Literal Types)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number"></span> <span class="nav-text">參考資料</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-%E7%9B%B2%E9%BB%9E"><span class="nav-number">1.</span> <span class="nav-text">JS 盲點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8B%95%E6%85%8B%E8%AA%9E%E8%A8%80-v-s-%E9%9D%9C%E6%85%8B%E8%AA%9E%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">動態語言 v.s. 靜態語言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%8B%E5%88%A5%E8%A8%BB%E8%A8%98-v-s-%E5%9E%8B%E5%88%A5%E6%8E%A8%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">型別註記 v.s. 型別推論</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%B7%E5%9E%8B%E5%88%A5-v-s-%E5%BC%B1%E5%9E%8B%E5%88%A5"><span class="nav-number">4.</span> <span class="nav-text">強型別 v.s. 弱型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TS-%E6%94%B9%E5%96%84%E8%A7%A3%E6%B1%BA%E7%9A%84%E5%95%8F%E9%A1%8C%E3%80%81%E5%84%AA%E9%BB%9E"><span class="nav-number">5.</span> <span class="nav-text">TS 改善解決的問題、優點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TS-%E7%BC%BA%E9%BB%9E"><span class="nav-number">6.</span> <span class="nav-text">TS 缺點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -385,7 +334,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -493,9 +442,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%B4%80%E9%8C%84%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/";
-    this.page.identifier = "2021/01/15/ 《讓 TypeScript 成為你全端開發的 ACE！》閱讀紀錄 - Ch1. TS 發展與概論/";
-    this.page.title = "《讓 TypeScript 成為你全端開發的 ACE！》閱讀紀錄 - Ch1. TS 發展與概論";
+    this.page.url = "http://example.com/2021/01/15/%20%E3%80%8A%E8%AE%93%20TypeScript%20%E6%88%90%E7%82%BA%E4%BD%A0%E5%85%A8%E7%AB%AF%E9%96%8B%E7%99%BC%E7%9A%84%20ACE%EF%BC%81%E3%80%8B%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98%20-%20Ch1.%20TS%20%E7%99%BC%E5%B1%95%E8%88%87%E6%A6%82%E8%AB%96/";
+    this.page.identifier = "2021/01/15/ 《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch1. TS 發展與概論/";
+    this.page.title = "《讓 TypeScript 成為你全端開發的 ACE！》閱讀筆記 - Ch1. TS 發展與概論";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
