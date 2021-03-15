@@ -20,17 +20,27 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+  <meta name="description" content="影片中的 Firebase 版本是 7.16.1，如語法運作有問題請確認版本與官方文件！ 最近在學習 React.js，雖然基本語法會使用但不是很熟悉，因此希望能透過網路上經驗豐富的前輩的影片來學習，並會對一些小專案寫下紀錄。 因為著重在 Firebase 結合 React 的使用，所以只會紀錄個人認為的重點，一些比較基本的元件渲染或樣式會省略。而專案中會使用許多 Firebase 的語法，只看程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="黑底白字">
+<meta property="og:title" content="小專案學習 - React + Firebase 打造專屬相簿">
 <meta property="og:url" content="http://example.com/2021/03/13/%E5%B0%8F%E5%B0%88%E6%A1%88%E5%AD%B8%E7%BF%92%20-%20React%20+%20Firebase%20%E6%89%93%E9%80%A0%E5%B0%88%E5%B1%AC%E7%9B%B8%E7%B0%BF/index.html">
 <meta property="og:site_name" content="黑底白字">
-<meta property="og:description" content="記錄用倉庫，歡迎指正。菜鳥前端，最菜的那種（超能力少女です）。">
+<meta property="og:description" content="影片中的 Firebase 版本是 7.16.1，如語法運作有問題請確認版本與官方文件！ 最近在學習 React.js，雖然基本語法會使用但不是很熟悉，因此希望能透過網路上經驗豐富的前輩的影片來學習，並會對一些小專案寫下紀錄。 因為著重在 Firebase 結合 React 的使用，所以只會紀錄個人認為的重點，一些比較基本的元件渲染或樣式會省略。而專案中會使用許多 Firebase 的語法，只看程">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-03-13T15:23:46.398Z">
-<meta property="article:modified_time" content="2021-03-13T15:24:34.521Z">
+<meta property="og:image" content="https://i.imgur.com/39Td3s5.jpg">
+<meta property="og:image" content="https://imgur.com/1bQz2Np.jpg">
+<meta property="og:image" content="https://imgur.com/6U4JPq9.jpg">
+<meta property="og:image" content="https://imgur.com/IqcwGtL.jpg">
+<meta property="og:image" content="https://imgur.com/vssFu1T.jpg">
+<meta property="og:image" content="https://imgur.com/bhOpZsa.jpg">
+<meta property="og:image" content="https://imgur.com/HKED9V2.jpg">
+<meta property="article:published_time" content="2021-03-13T10:35:51.000Z">
+<meta property="article:modified_time" content="2021-03-15T07:04:09.944Z">
 <meta property="article:author" content="Iris Huang">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Firebase">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/39Td3s5.jpg">
 
 <link rel="canonical" href="http://example.com/2021/03/13/%E5%B0%8F%E5%B0%88%E6%A1%88%E5%AD%B8%E7%BF%92%20-%20React%20+%20Firebase%20%E6%89%93%E9%80%A0%E5%B0%88%E5%B1%AC%E7%9B%B8%E7%B0%BF/">
 
@@ -45,7 +55,7 @@
   };
 </script>
 
-  <title> | 黑底白字</title>
+  <title>小專案學習 - React + Firebase 打造專屬相簿 | 黑底白字</title>
   
 
 
@@ -158,7 +168,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          小專案學習 - React + Firebase 打造專屬相簿
         </h1>
 
         <div class="post-meta">
@@ -188,7 +198,105 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p><strong>影片中的 Firebase 版本是 7.16.1，如語法運作有問題請確認版本與官方文件！</strong></p>
+<p>最近在學習 React.js，雖然基本語法會使用但不是很熟悉，因此希望能透過網路上經驗豐富的前輩的影片來學習，並會對一些小專案寫下紀錄。</p>
+<p>因為著重在 Firebase 結合 React 的使用，所以只會紀錄個人認為的重點，一些比較基本的元件渲染或樣式會省略。而專案中會使用許多 Firebase 的語法，只看程式碼可能會不太理解實際的使用方式，所以會在每個 Firebase 的方法附上相應的官方文件連結。</p>
+<a id="more"></a>
+
+<ul>
+<li>參考影片：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=vUe91uOx7R0">Build a Photo Gallery With React &amp; Firebase</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/lyaui/React_small-practice-projects/tree/main/The-Net-Ninja_firegram">程式碼</a>、<a target="_blank" rel="noopener" href="https://fire-gram.herokuapp.com/">成品</a></li>
+</ul>
+<hr>
+<h3 id="建立-Firebase-專案"><a href="#建立-Firebase-專案" class="headerlink" title="建立 Firebase 專案"></a>建立 Firebase 專案</h3><p>在這個相簿專案中，會利用 Firebase Database 與 FireStorage 來作為資料與圖片的儲存，因此在這邊介紹 Firebase 的基礎用法。</p>
+<p>首先進入 <a target="_blank" rel="noopener" href="https://firebase.google.com/">Firebase</a> 利用右上角「前往主控台」進入新增專案頁面：</p>
+<ol>
+<li><p>點選「+ 新增專案」新增專案名稱</p>
+</li>
+<li><p>選擇是否啟用 GA 分析，因為不使用 GA 功能所以勾選關閉，然後點選建立專案完成建立。<br>3 進入 firebase 專案平台，點選頁面中央的 <code>&lt;/&gt;</code> 圖示新增網頁應用程式</p>
+<img src="https://i.imgur.com/39Td3s5.jpg">
+</li>
+<li><p>在「將 Firebase 新增至您的網頁應用程式」頁面中輸入專案名稱，然後點選「註冊應用程式」</p>
+</li>
+<li><p>此時 Firebase 會提供一串程式碼，將紅框的 script 部分複製起來就完成了。</p>
+</li>
+</ol>
+<img src="https://imgur.com/1bQz2Np.jpg">
+
+<h3 id="將-Firebase-引入-React-專案中"><a href="#將-Firebase-引入-React-專案中" class="headerlink" title="將 Firebase 引入 React 專案中"></a>將 Firebase 引入 React 專案中</h3><p>剛剛已經建立好了遠端的 Firebase 專案，現在我們要將它加入我們本地的專案資料夾，這樣才能使用 Firebase 的相關功能。</p>
+<ol>
+<li>進入 React 專案中，在 src 資料夾下新增一個名為 firebase 的資料夾，並新增一支 config.js 的檔案，然後將剛剛複製的程式碼貼入（記得將頭尾的 script 標籤去除）</li>
+<li>因為貼入的程式碼 <code>firebase.initializeApp(firebaseConfig)</code> 會引用到 firebase，所以使用以下指令安裝 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/firebase">firebase</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install firebase</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>設定 config.js 檔（如下），詳細可以參考 <a target="_blank" rel="noopener" href="https://firebase.google.com/docs/web/setup">官方文件</a>，這樣就順利完成了</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 將全部東西以 firebase 的名稱引入</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> firebase <span class="keyword">from</span> <span class="string">&#x27;firebase/app&#x27;</span>;</span><br><span class="line"><span class="comment">// 將用來儲存圖片檔案庫引入</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;firebase/storage&#x27;</span>;</span><br><span class="line"><span class="comment">// 將儲存資料的資料庫引入</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;firebase/firestore&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Your web app&#x27;s Firebase configuration</span></span><br><span class="line"><span class="keyword">var</span> firebaseConfig = &#123;</span><br><span class="line">  apiKey: <span class="string">&#x27;AIzaSyCfzMKsmbrxadphW165WcyeXfgvFojge8w&#x27;</span>,</span><br><span class="line">  authDomain: <span class="string">&#x27;firegram-b9227.firebaseapp.com&#x27;</span>,</span><br><span class="line">  projectId: <span class="string">&#x27;firegram-b9227&#x27;</span>,</span><br><span class="line">  storageBucket: <span class="string">&#x27;firegram-b9227.appspot.com&#x27;</span>,</span><br><span class="line">  messagingSenderId: <span class="string">&#x27;971874054723&#x27;</span>,</span><br><span class="line">  appId: <span class="string">&#x27;1:971874054723:web:b6252a900f1bea9d1d5af6&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Initialize Firebase</span></span><br><span class="line">firebase.initializeApp(firebaseConfig);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 啟用 storage 和 firestore, timestamp的服務然後輸出，這樣在其他檔案就能夠使用了</span></span><br><span class="line"><span class="keyword">const</span> projectStorage = firebase.storage();</span><br><span class="line"><span class="keyword">const</span> projectFirestore = firebase.firestore();</span><br><span class="line"><span class="keyword">const</span> timestamp = firebase.firestore.FieldValue.serverTimestamp();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; projectStorage, projectFirestore, timestamp &#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="建立-Cloud-Firestore-與-Storage-資料庫"><a href="#建立-Cloud-Firestore-與-Storage-資料庫" class="headerlink" title="建立 Cloud Firestore 與 Storage 資料庫"></a>建立 Cloud Firestore 與 Storage 資料庫</h3><p>回到 Firebase 的專案頁面，左側選單有 Cloud Firestore 與 Realtime Database 兩種資料庫，，而在這個專案中會使用較新的 Cloud Firestore 來儲存資料。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/database/rtdb-vs-firestore?authuser=0">官方文件：選擇一個數據庫：Cloud Firestore 或實時數據庫</a></li>
+</ul>
+<ol>
+<li><p>點選左側選單的 Cloud Firestore，然後點選「建立資料庫」，這時會跳出一個視窗選單，點選「以測試模式啟動」，然後一路點選確定啟用 Cloud Firestore 就建立完成了</p>
+<img src="https://imgur.com/6U4JPq9.jpg">
+</li>
+<li><p>點選左側選單的 Storage 進行差不多的步驟建立資料庫，完成後的畫面如下</p>
+<img src="https://imgur.com/IqcwGtL.jpg"></li>
+<li><p>因為 Storage 預設擁有特定權限的人才能寫入檔案，如果希望誰都能上傳檔案的話就要修改 Storage 的權限，點選上方的 Rules，然後將下圖選取的 <code>: if request.auth != null;</code> 刪除並點選發佈，這樣就設定完成了</p>
+<img src="https://imgur.com/vssFu1T.jpg">
+
+</li>
+</ol>
+<h3 id="在本地上傳圖檔"><a href="#在本地上傳圖檔" class="headerlink" title="在本地上傳圖檔"></a>在本地上傳圖檔</h3><p>建立 UploadForm.js 元件專門處理檔案上傳，利用 <code>&lt;input type=&#39;file&#39; onChange=&#123;onChangeFile&#125; /&gt;</code> 可以讓我們設定上傳檔案的按鈕，並且設定 onChange 事件，一旦上傳了檔案就會觸發其函式。</p>
+<p>我們可以利用 <code>e.target.files[0]</code> 取得上傳的檔案詳情，並且進行相關設定：<br><img src="https://imgur.com/bhOpZsa.jpg" width="50%"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [file, setFile] = useState(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">const</span> [error, setError] = useState(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> onChangeFile = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 被選取的檔案</span></span><br><span class="line">  <span class="keyword">const</span> selectedFile = e.target.files[<span class="number">0</span>];</span><br><span class="line">  <span class="comment">// 設定限定可以上傳的檔案類型</span></span><br><span class="line">  <span class="keyword">const</span> types = [<span class="string">&#x27;image/png&#x27;</span>, <span class="string">&#x27;image/jpeg&#x27;</span>];</span><br><span class="line">  <span class="comment">// 確認是否有檔案被上傳、上傳的檔案類型是否符合 types 的限定</span></span><br><span class="line">  <span class="keyword">if</span> (selectedFile &amp;&amp; types.includes(selectedFile.type)) &#123;</span><br><span class="line">    setFile(selectedFile);</span><br><span class="line">    setError(<span class="literal">null</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    setFile(<span class="literal">null</span>);</span><br><span class="line">    setError(<span class="string">&#x27;Please select an image file (png or jpeg)&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="將圖檔上傳到-FireStorage、在-Cloud-Firebase-中新增資料"><a href="#將圖檔上傳到-FireStorage、在-Cloud-Firebase-中新增資料" class="headerlink" title="將圖檔上傳到 FireStorage、在 Cloud Firebase 中新增資料"></a>將圖檔上傳到 FireStorage、在 Cloud Firebase 中新增資料</h3><p>在這個專案中，上傳圖片希望能夠：</p>
+<ol>
+<li>取得上傳後的圖片 url</li>
+<li>取得圖片的上傳進度</li>
+<li>將上傳的圖片網址加入資料庫</li>
+</ol>
+<p>因此建立 hooks 的資料夾，並建立 useStorage.js 的 custom hook 來專門處理上傳圖檔到 FireStorage，之後再建立一個 ProgressBar.js 元件來使用 useStorage 回傳的資料。</p>
+<ul>
+<li>圖片上傳方式：<a target="_blank" rel="noopener" href="https://firebase.google.com/docs/storage/web/upload-files#monitor_upload_progress">官方文件：上傳檔案 + 監控上傳進度</a></li>
+<li>在資料新增資料庫：<a target="_blank" rel="noopener" href="https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document">官方文件：新增文件</a></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="comment">// 使用 firebase 的 storage, cloud datebase, timestamp 功能</span></span><br><span class="line"><span class="keyword">import</span> &#123; projectStorage, projectFirestore, timestamp &#125; <span class="keyword">from</span> <span class="string">&#x27;../firebase/config&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> useStorage = <span class="function">(<span class="params">file</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [progress, setProgress] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [error, setError] = useState(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> [url, setUrl] = useState(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> storageRef = projectStorage.ref(file.name);</span><br><span class="line">    <span class="comment">// 設定資料會傳到名為 &#x27;images&#x27; 的集合中</span></span><br><span class="line">    <span class="keyword">const</span> collectionRef = projectFirestore.collection(<span class="string">&#x27;images&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  開始上傳圖片</span></span><br><span class="line">    storageRef.put(file).on(</span><br><span class="line">      <span class="string">&#x27;state_changed&#x27;</span>,</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 監聽進度變化並設定進度百分比</span></span><br><span class="line">      (snapshot) =&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> progress = (snapshot.bytesTransferred / snapshot.totalBytes) * <span class="number">100</span>;</span><br><span class="line">        setProgress(progress);</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 設定報錯訊息</span></span><br><span class="line">      (error) =&gt; &#123;</span><br><span class="line">        setError(<span class="built_in">Error</span>);</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 取得圖片網址並設定</span></span><br><span class="line">      <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> url = <span class="keyword">await</span> storageRef.getDownloadURL();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 將得到的網址與時間戳記新增到 cloud database 中</span></span><br><span class="line">        <span class="keyword">await</span> collectionRef.add(&#123; url, <span class="attr">createAt</span>: timestamp &#125;);</span><br><span class="line">        setUrl(url);</span><br><span class="line">      &#125;,</span><br><span class="line">    );</span><br><span class="line">  &#125;, [file]);</span><br><span class="line">  <span class="keyword">return</span> &#123; progress, error, url &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useStorage;</span><br></pre></td></tr></table></figure>
+<h3 id="製作進度條"><a href="#製作進度條" class="headerlink" title="製作進度條"></a>製作進度條</h3><p>新增 progressBar.js 元件，並呼叫 useStorage 的 hook 進行資料上傳並顯示上傳進度。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> useStorage <span class="keyword">from</span> <span class="string">&#x27;../hooks/useStorage&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ProgressBar = <span class="function">(<span class="params">&#123; file, setFile &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; progress, url &#125; = useStorage(file);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 當取得圖片網址後，就清掉上傳的檔案，並利用條件判斷式使進度條消失</span></span><br><span class="line">    <span class="keyword">if</span> (url) &#123; setFile(<span class="literal">null</span>); &#125;</span><br><span class="line">  &#125;, [url, setFile]);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 利用取得的進度設定進度條的寬度</span></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#x27;progress-bar&#x27;</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span> <span class="attr">width:</span> <span class="attr">progress</span> + &#x27;%&#x27; &#125;&#125;&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> ProgressBar;</span><br></pre></td></tr></table></figure>
+<h3 id="抓取-Cloud-FireStore-即時資料"><a href="#抓取-Cloud-FireStore-即時資料" class="headerlink" title="抓取 Cloud FireStore 即時資料"></a>抓取 Cloud FireStore 即時資料</h3><p>在這個範例中我們想要即時取得圖片集合(images collection)的資料並渲染到畫面上，因此新增一個名為 useFireStore 的 custom hook 來專門獲取 Cloud FireStore 中的圖片網址資料。</p>
+<p>要即時取得 Cloud FireStore 的資料可以利用 <code>onSnapshot()</code> 的方法對資料庫的資料進行監聽。每當資料庫有任何變動（例如上傳新的圖片），就會回傳新的資料。</p>
+<p>而一般我們在離開元件進行銷毀時，也會移除安裝的監聽事件，因此利用 useEffect return 的 clean function 來執行移除 <code>onSnapshot</code> 事件的監聽，而 Firebase 官方有提供專門的移除事件的方法，請參考下面官方文件。</p>
+<ul>
+<li>使用 <code>onSnapshot</code> 抓取即時一整個集合的資料：<a target="_blank" rel="noopener" href="https://firebase.google.com/docs/firestore/query-data/listen#listen_to_multiple_documents_in_a_collection">官方文件：聽取集合中的多個文檔</a></li>
+<li>使用 <code>orderBy</code> 得到排序的資料：<a target="_blank" rel="noopener" href="https://firebase.google.com/docs/firestore/query-data/order-limit-data">官方文件：使用 Cloud Firestore 訂購和限制數據</a></li>
+<li>利用 <code>unsub()</code> 移除 <code>onSnapshot</code> 監聽事件：<a target="_blank" rel="noopener" href="https://firebase.google.com/docs/firestore/query-data/listen#detach_a_listener">官方文件：分離聽眾</a></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; projectFirestore &#125; <span class="keyword">from</span> <span class="string">&#x27;../firebase/config&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 將要查找的集合(collection)傳入，此例中要取得的是&#x27;images&#x27;集合</span></span><br><span class="line"><span class="keyword">const</span> useFireStore = <span class="function">(<span class="params">collection</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [docs, setDocs] = useState([]);</span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取得即時資料，監聽 onSnapshot 事件，並命名為 unsub 以便之後移除監聽</span></span><br><span class="line">    <span class="keyword">const</span> unsub = projectFirestore</span><br><span class="line">      <span class="comment">// 要取得的集合</span></span><br><span class="line">      .collection(collection)</span><br><span class="line">      <span class="comment">// 依照上傳時間由新到舊排列</span></span><br><span class="line">      .orderBy(<span class="string">&#x27;createAt&#x27;</span>, <span class="string">&#x27;desc&#x27;</span>)</span><br><span class="line">      <span class="comment">// 監聽資料庫變化</span></span><br><span class="line">      .onSnapshot(<span class="function">(<span class="params">querySnapshot</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> data = [];</span><br><span class="line">        querySnapshot.forEach(<span class="function">(<span class="params">snapshot</span>) =&gt;</span> &#123;</span><br><span class="line">          data = [...data, snapshot.data()];</span><br><span class="line">        &#125;);</span><br><span class="line">        setDocs(data);</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 移除監聽事件</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> unsub();</span><br><span class="line">  &#125;, [collection]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; docs &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useFireStore;</span><br></pre></td></tr></table></figure>
+<h3 id="使用-Framer-Motion-為網頁加入動畫"><a href="#使用-Framer-Motion-為網頁加入動畫" class="headerlink" title="使用 Framer Motion 為網頁加入動畫"></a>使用 Framer Motion 為網頁加入動畫</h3><ol>
+<li>安裝 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/framer-motion">Framer Motion</a> 套件：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install framer-motion</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在要使用元件內引入</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; motion &#125; from &#39;framer-motion&#39;;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>將要套用動畫的 tag 前面加上 motion 後（類似<code> &lt;motion.div&gt; YO! &lt;/motion.div&gt;</code>），就可以開始內建的效果了，使用方式同 JSX inline style 的寫法。</li>
+</ol>
+<p>因為網路上有不少不錯的範例，所以建議搜尋關鍵字來找適合的套用，例如：”framer motion progressbar”、”framer motion modal”，或者直接參閱：<a target="_blank" rel="noopener" href="https://www.framer.com/api/motion/">官方 API 文件</a>。</p>
+<p>以下是一些課程影片使用到的效果：</p>
+<ul>
+<li><code>layout</code>：當元件產生位移等 layout 改變時，會有過渡的移動動畫。</li>
+<li><code>whileHover</code>：Hover 事件觸發的效果</li>
+<li><code>initial</code>：剛渲染時的元件狀態</li>
+<li><code>animate</code>：選染後的元件狀態</li>
+<li><code>transition</code>：就是 CSS 的 transition，可以設定像是 delay 之類的動畫</li>
+</ul>
+<hr>
+<p>於是，一個美美的個人相冊就完成了！<br><img src="https://imgur.com/HKED9V2.jpg" width="100%"></p>
+
     </div>
 
     
@@ -196,6 +304,10 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/Firebase/" rel="tag"># Firebase</a>
+          </div>
 
         
 
@@ -272,6 +384,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-Firebase-%E5%B0%88%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">建立 Firebase 專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%87-Firebase-%E5%BC%95%E5%85%A5-React-%E5%B0%88%E6%A1%88%E4%B8%AD"><span class="nav-number">2.</span> <span class="nav-text">將 Firebase 引入 React 專案中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-Cloud-Firestore-%E8%88%87-Storage-%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">3.</span> <span class="nav-text">建立 Cloud Firestore 與 Storage 資料庫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0%E4%B8%8A%E5%82%B3%E5%9C%96%E6%AA%94"><span class="nav-number">4.</span> <span class="nav-text">在本地上傳圖檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%87%E5%9C%96%E6%AA%94%E4%B8%8A%E5%82%B3%E5%88%B0-FireStorage%E3%80%81%E5%9C%A8-Cloud-Firebase-%E4%B8%AD%E6%96%B0%E5%A2%9E%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">將圖檔上傳到 FireStorage、在 Cloud Firebase 中新增資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A3%BD%E4%BD%9C%E9%80%B2%E5%BA%A6%E6%A2%9D"><span class="nav-number">6.</span> <span class="nav-text">製作進度條</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%93%E5%8F%96-Cloud-FireStore-%E5%8D%B3%E6%99%82%E8%B3%87%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">抓取 Cloud FireStore 即時資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Framer-Motion-%E7%82%BA%E7%B6%B2%E9%A0%81%E5%8A%A0%E5%85%A5%E5%8B%95%E7%95%AB"><span class="nav-number">8.</span> <span class="nav-text">使用 Framer Motion 為網頁加入動畫</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -293,7 +406,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -394,7 +507,7 @@
   var disqus_config = function() {
     this.page.url = "http://example.com/2021/03/13/%E5%B0%8F%E5%B0%88%E6%A1%88%E5%AD%B8%E7%BF%92%20-%20React%20+%20Firebase%20%E6%89%93%E9%80%A0%E5%B0%88%E5%B1%AC%E7%9B%B8%E7%B0%BF/";
     this.page.identifier = "2021/03/13/小專案學習 - React + Firebase 打造專屬相簿/";
-    this.page.title = "";
+    this.page.title = "小專案學習 - React + Firebase 打造專屬相簿";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
